@@ -5,9 +5,10 @@ builder.prismaObject("User", {
   name: "User",
   fields: (t) => ({
     id: t.exposeID("id"),
-    name: t.exposeString("name"),
+    name: t.exposeString("username"),
     email: t.exposeString("email"),
     avatar: t.exposeString("avatar", { nullable: true }),
+    nuzlockes: t.relation("nuzlockes"),
   }),
 });
 
@@ -29,9 +30,5 @@ builder.queryFields((t) => ({
 
       return user;
     },
-  }),
-  getUsers: t.prismaField({
-    type: ["User"],
-    resolve: (query) => db.user.findMany(query),
   }),
 }));

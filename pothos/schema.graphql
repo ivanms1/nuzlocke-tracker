@@ -1,36 +1,9 @@
-type Article {
-  author: User!
-  content: String!
-  createdAt: Date!
-  id: ID!
-  isPublished: Boolean!
-  lead: String!
-  preview: String!
+"""Create nuzlocke input"""
+input CreateNuzlockeInput {
+  description: String
+  gameId: Int!
   title: String!
-  updatedAt: Date!
-}
-
-"""Articles query input"""
-input ArticlesInput {
-  cursor: String
-  order: SearchOrder
-  orderBy: String
-  search: String
-}
-
-"""Paginated list of articles"""
-type ArticlesResponse {
-  nextCursor: String
-  prevCursor: String
-  results: [Article!]!
-  totalCount: Int
-}
-
-input CreateArticleInput {
-  content: String!
-  lead: String!
-  preview: String!
-  title: String!
+  type: Role!
 }
 
 """
@@ -44,18 +17,84 @@ The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](
 scalar JSON
 
 type Mutation {
-  createArticle(input: CreateArticleInput!, userId: String!): Article!
-  deleteArticle(articleId: String!): Article!
-  signUp(avatar: String!, email: String!, name: String!): User!
-  updateArticle(articleId: String!, input: CreateArticleInput!): Article!
+  """Create a nuzlocke"""
+  createNuzlocke(input: CreateNuzlockeInput!, userId: String!): Nuzlocke!
+
+  """Delete nuzlockes"""
+  deleteNuzlockes(ids: [String!]!): [String!]!
+  signUp(avatar: String!, email: String!, username: String!): User!
+
+  """Update nuzlocke"""
+  updateNuzlocke(id: String!, input: CreateNuzlockeInput!): Nuzlocke!
+}
+
+type Nuzlocke {
+  createdAt: Date!
+  description: String
+  id: ID!
+  pokemons: [NuzlockePokemon!]!
+  title: String!
+  type: Role!
+  updatedAt: Date!
+  user: User!
+}
+
+type NuzlockePokemon {
+  createdAt: Date!
+  id: ID!
+  locationId: Int!
+  nickname: String!
+  nuzlocke: Nuzlocke!
+  pokemonId: Int!
+  status: STATUS!
+  types: [Int!]!
+  updatedAt: Date!
+}
+
+"""Paginated list of articles"""
+type NuzlockeResponse {
+  nextCursor: String
+  prevCursor: String
+  results: [Nuzlocke!]!
+  totalCount: Int
 }
 
 type Query {
-  getArticle(articleId: String!): Article!
+  getNuzlocke(id: String!): Nuzlocke!
+
+  """Get a nuzlocke pokemon by id"""
+  getNuzlockePokemon(id: String!): NuzlockePokemon!
+
+  """Get a list of pokemons from a nuzlocke"""
+  getNuzlockePokemons(nuzlockeId: String!): [NuzlockePokemon!]!
   getUser(userId: String!): User!
-  getUserArticles(input: ArticlesInput!, userId: String!): ArticlesResponse!
-  getUsers: [User!]!
-  searchArticles(input: ArticlesInput): ArticlesResponse!
+
+  """Search for nuzlockes"""
+  searchNuzlockes(input: SearchInput): NuzlockeResponse!
+}
+
+"""Nuuzlocke type"""
+enum Role {
+  CAGELOCKE
+  CUSTOM
+  NORMAL
+  SOUL_LINK
+}
+
+"""Pokemon status"""
+enum STATUS {
+  DEAD
+  ENCOUNTERED
+  IN_PC
+  IN_TEAM
+}
+
+"""Search query input"""
+input SearchInput {
+  cursor: String
+  order: SearchOrder
+  orderBy: String
+  search: String
 }
 
 """Search order"""
@@ -69,4 +108,5 @@ type User {
   email: String!
   id: ID!
   name: String!
+  nuzlockes: [Nuzlocke!]!
 }

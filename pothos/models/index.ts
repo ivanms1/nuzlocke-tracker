@@ -1,3 +1,4 @@
 export * from "./User";
-export * from "./Article";
+export * from "./Nuzlocke";
+export * from "./NuzlockePokemon";
 export * from "./Scalars";

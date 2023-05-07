@@ -6,7 +6,7 @@ builder.mutationFields((t) => ({
     type: "User",
     args: {
       email: t.arg.string({ required: true }),
-      name: t.arg.string({ required: true }),
+      username: t.arg.string({ required: true }),
       avatar: t.arg.string({ required: true }),
     },
     resolve: async (query, _, args) => {

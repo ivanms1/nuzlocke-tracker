@@ -8,11 +8,11 @@ import db from "./db";
 const builder = new SchemaBuilder<{
   PrismaTypes: PrismaTypes;
   Objects: {
-    ArticlesResponse: {
+    NuzlockeResponse: {
       nextCursor: string;
       prevCursor: string;
       totalCount: number;
-      results: PrismaTypes["Article"]["Shape"][];
+      results: PrismaTypes["Nuzlocke"]["Shape"][];
     };
   };
   Scalars: {
