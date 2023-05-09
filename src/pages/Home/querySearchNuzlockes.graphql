@@ -1,0 +1,8 @@
+query SearchNuzlockes($input: SearchInput) {
+  searchNuzlockes(input: $input) {
+    results {
+      id
+      title
+    }
+  }
+}

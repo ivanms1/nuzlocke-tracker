@@ -73,7 +73,7 @@ type Query {
   searchNuzlockes(input: SearchInput): NuzlockeResponse!
 }
 
-"""Nuuzlocke type"""
+"""Nuzlocke type"""
 enum Role {
   CAGELOCKE
   CUSTOM

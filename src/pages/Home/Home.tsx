@@ -1,15 +1,14 @@
-import { useSearchArticlesQuery } from "generated";
+import { useSearchNuzlockesQuery } from "generated";
 import { signIn } from "next-auth/react";
 
 function Home() {
-  const { data } = useSearchArticlesQuery();
-
+  const { data } = useSearchNuzlockesQuery();
   return (
     <div>
       <h1>Web</h1>
       <div>
-        {data?.articles?.results?.map((article) => (
-          <p key={article.id}> {article.title}</p>
+        {data?.searchNuzlockes?.results?.map((nuzlocke) => (
+          <p key={nuzlocke.id}> {nuzlocke.title}</p>
         ))}
       </div>
       <button onClick={() => signIn("discord")}>Login</button>
