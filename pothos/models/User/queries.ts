@@ -5,8 +5,8 @@ builder.prismaObject("User", {
   name: "User",
   fields: (t) => ({
     id: t.exposeID("id"),
-    name: t.exposeString("username"),
-    email: t.exposeString("email"),
+    name: t.exposeString("name", { nullable: true }),
+    email: t.exposeString("email", { nullable: true }),
     avatar: t.exposeString("avatar", { nullable: true }),
     nuzlockes: t.relation("nuzlockes"),
   }),

@@ -3,10 +3,15 @@ import SchemaBuilder from "@pothos/core";
 
 import type PrismaTypes from "@pothos/plugin-prisma/generated";
 
+import type { User } from "@prisma/client";
+
 import db from "./db";
 
 const builder = new SchemaBuilder<{
   PrismaTypes: PrismaTypes;
+  Context: {
+    userId: User["id"];
+  };
   Objects: {
     NuzlockeResponse: {
       nextCursor: string;

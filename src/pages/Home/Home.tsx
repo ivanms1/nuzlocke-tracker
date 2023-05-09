@@ -1,4 +1,5 @@
 import { useSearchArticlesQuery } from "generated";
+import { signIn } from "next-auth/react";
 
 function Home() {
   const { data } = useSearchArticlesQuery();
@@ -11,7 +12,7 @@ function Home() {
           <p key={article.id}> {article.title}</p>
         ))}
       </div>
-      <button>Beep</button>
+      <button onClick={() => signIn("discord")}>Login</button>
     </div>
   );
 }
