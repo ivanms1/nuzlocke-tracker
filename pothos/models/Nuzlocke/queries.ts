@@ -74,10 +74,11 @@ builder.queryType({
       args: {
         input: t.arg({ type: SearchInput }),
       },
-      resolve: async (_, args) => {
+      resolve: async (_, args, ctx) => {
         const incomingCursor = args?.input?.cursor;
         let results;
         const filter: Prisma.NuzlockeWhereInput | undefined = {
+          userId: ctx?.userId,
           OR: [
             {
               title: {

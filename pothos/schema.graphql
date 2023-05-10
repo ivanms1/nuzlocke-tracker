@@ -105,8 +105,8 @@ enum SearchOrder {
 
 type User {
   avatar: String
-  email: String!
+  email: String
   id: ID!
-  name: String!
+  name: String
   nuzlockes: [Nuzlocke!]!
 }
