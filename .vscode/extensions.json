@@ -4,7 +4,6 @@
     "dbaeumer.vscode-eslint",
     "github.vscode-pull-request-github",
     "eamodio.gitlens",
-    "christian-kohler.path-intellisense",
-    "stylelint.vscode-stylelint"
+    "christian-kohler.path-intellisense"
   ]
 }

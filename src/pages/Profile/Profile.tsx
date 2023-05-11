@@ -1,7 +1,6 @@
 import React from "react";
-
-import styles from "./Profile.module.scss";
 import { signOut } from "next-auth/react";
+
 import { useSearchNuzlockesQuery } from "generated";
 
 interface ProfileProps {}
@@ -9,9 +8,9 @@ interface ProfileProps {}
 const Profile = ({}: ProfileProps) => {
   const { data } = useSearchNuzlockesQuery();
   return (
-    <div className={styles.Profile}>
-      Profile
-      <button onClick={() => signOut()}>loguout</button>
+    <div>
+      <p className="text-2xl">Profile</p>
+      <button onClick={() => signOut()}>log out</button>
       {data?.searchNuzlockes?.results?.map((nuzlocke) => (
         <p key={nuzlocke.id}> {nuzlocke.title}</p>
       ))}

@@ -1,14 +1,12 @@
 import clsx from "clsx";
 
-import styles from "./Button.module.scss";
-
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
 function Button({ className, children, ...props }: ButtonProps) {
   return (
-    <button className={clsx(styles.Button, className)} {...props}>
+    <button className={clsx("p-3", className)} {...props}>
       {children}
     </button>
   );

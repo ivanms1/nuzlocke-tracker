@@ -5,6 +5,8 @@ import { SessionProvider } from "next-auth/react";
 import useApollo from "@/hooks/useApollo";
 import AuthProvider from "@/components/AuthProvider";
 
+import "./globals.css";
+
 function CustomApp({
   Component,
   pageProps: { session, ...pageProps },
