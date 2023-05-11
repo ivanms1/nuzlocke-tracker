@@ -5,7 +5,7 @@ import { useSearchNuzlockesQuery } from "generated";
 
 interface ProfileProps {}
 
-const Profile = ({}: ProfileProps) => {
+function Profile({}: ProfileProps) {
   const { data } = useSearchNuzlockesQuery();
   return (
     <div>
@@ -16,6 +16,6 @@ const Profile = ({}: ProfileProps) => {
       ))}
     </div>
   );
-};
+}
 
 export default Profile;
