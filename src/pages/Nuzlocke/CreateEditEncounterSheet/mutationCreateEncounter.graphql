@@ -1,0 +1,10 @@
+mutation CreateEncounter($input: CreateEncounterInput!, $nuzlockeId: String!) {
+  createEncounter(input: $input, nuzlockeId: $nuzlockeId) {
+    id
+    location
+    nickname
+    pokemonId
+    status
+    createdAt
+  }
+}

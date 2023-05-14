@@ -2,7 +2,7 @@ import builder from "pothos/builder";
 import db from "pothos/db";
 
 export const STATUS = builder.enumType("STATUS", {
-  values: ["SEEN", "IN_TEAM", "IN_PC", "DEAD"] as const,
+  values: ["SEEN", "IN_TEAM", "IN_PC", "FAINTED"] as const,
   description: "Pokemon status",
 });
 
@@ -11,13 +11,12 @@ builder.prismaObject("Encounter", {
   fields: (t) => ({
     id: t.exposeID("id"),
     nickname: t.exposeString("nickname"),
-    types: t.exposeIntList("types"),
     pokemonId: t.exposeInt("pokemonId"),
     nuzlocke: t.relation("nuzlocke"),
     status: t.expose("status", { type: STATUS }),
     createdAt: t.expose("createdAt", { type: "Date" }),
     updatedAt: t.expose("updatedAt", { type: "Date" }),
-    locationId: t.exposeInt("locationId"),
+    location: t.exposeString("location"),
   }),
 });
 

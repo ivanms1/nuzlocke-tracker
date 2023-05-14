@@ -51,7 +51,7 @@ function CreateNuzlocke() {
       });
       router.push(`/nuzlocke/${res.data?.createNuzlocke?.id}`);
     } catch (e) {
-      console.log(e);
+      // TODO:  handle error
     }
   };
 

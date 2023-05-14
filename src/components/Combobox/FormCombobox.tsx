@@ -1,5 +1,6 @@
 import { useController } from "react-hook-form";
-import Combobox, { type ComboboxProps } from ".";
+
+import Combobox, { ComboboxProps } from "./Combobox";
 
 interface FormComboboxProps extends ComboboxProps {
   name: string;
@@ -12,6 +13,7 @@ function FormCombobox({ name, control, ...props }: FormComboboxProps) {
     name,
     control,
   });
+
   return <Combobox value={field.value} onChange={field.onChange} {...props} />;
 }
 

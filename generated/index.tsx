@@ -25,6 +25,14 @@ export type Scalars = {
   JSON: any;
 };
 
+/** Create encounter input */
+export type CreateEncounterInput = {
+  location: Scalars["String"];
+  nickname: Scalars["String"];
+  pokemonId: Scalars["Int"];
+  status: Status;
+};
+
 /** Create nuzlocke input */
 export type CreateNuzlockeInput = {
   description?: InputMaybe<Scalars["String"]>;
@@ -33,19 +41,46 @@ export type CreateNuzlockeInput = {
   type: NuzlockeType;
 };
 
+export type Encounter = {
+  __typename?: "Encounter";
+  createdAt: Scalars["Date"];
+  id: Scalars["ID"];
+  location: Scalars["String"];
+  nickname: Scalars["String"];
+  nuzlocke: Nuzlocke;
+  pokemonId: Scalars["Int"];
+  status: Status;
+  updatedAt: Scalars["Date"];
+};
+
 export type Mutation = {
   __typename?: "Mutation";
+  /** Create a encounter */
+  createEncounter: Encounter;
   /** Create a nuzlocke */
   createNuzlocke: Nuzlocke;
+  /** Delete encounter */
+  deleteEncounter: Encounter;
   /** Delete nuzlockes */
   deleteNuzlockes: Array<Scalars["String"]>;
   signUp: User;
+  /** Update encounter */
+  updateEncounter: Encounter;
   /** Update nuzlocke */
   updateNuzlocke: Nuzlocke;
 };
 
+export type MutationCreateEncounterArgs = {
+  input: CreateEncounterInput;
+  nuzlockeId: Scalars["String"];
+};
+
 export type MutationCreateNuzlockeArgs = {
   input: CreateNuzlockeInput;
+};
+
+export type MutationDeleteEncounterArgs = {
+  id: Scalars["String"];
 };
 
 export type MutationDeleteNuzlockesArgs = {
@@ -58,6 +93,11 @@ export type MutationSignUpArgs = {
   username: Scalars["String"];
 };
 
+export type MutationUpdateEncounterArgs = {
+  id: Scalars["String"];
+  input: CreateEncounterInput;
+};
+
 export type MutationUpdateNuzlockeArgs = {
   id: Scalars["String"];
   input: CreateNuzlockeInput;
@@ -68,24 +108,11 @@ export type Nuzlocke = {
   createdAt: Scalars["Date"];
   description?: Maybe<Scalars["String"]>;
   id: Scalars["ID"];
-  pokemons: Array<NuzlockePokemon>;
+  pokemons: Array<Encounter>;
   title: Scalars["String"];
   type: NuzlockeType;
   updatedAt: Scalars["Date"];
   user: User;
-};
-
-export type NuzlockePokemon = {
-  __typename?: "NuzlockePokemon";
-  createdAt: Scalars["Date"];
-  id: Scalars["ID"];
-  locationId: Scalars["Int"];
-  nickname: Scalars["String"];
-  nuzlocke: Nuzlocke;
-  pokemonId: Scalars["Int"];
-  status: Status;
-  types: Array<Scalars["Int"]>;
-  updatedAt: Scalars["Date"];
 };
 
 /** Paginated list of articles */
@@ -108,10 +135,10 @@ export enum NuzlockeType {
 export type Query = {
   __typename?: "Query";
   getNuzlocke: Nuzlocke;
-  /** Get a nuzlocke pokemon by id */
-  getNuzlockePokemon: NuzlockePokemon;
-  /** Get a list of pokemons from a nuzlocke */
-  getNuzlockePokemons: Array<NuzlockePokemon>;
+  /** Get encounter by id */
+  getNuzlockePokemon: Encounter;
+  /** Get a list of encounters from a nuzlocke */
+  getNuzlockePokemons: Array<Encounter>;
   getUser: User;
   /** Search for nuzlockes */
   searchNuzlockes: NuzlockeResponse;
@@ -139,10 +166,10 @@ export type QuerySearchNuzlockesArgs = {
 
 /** Pokemon status */
 export enum Status {
-  Dead = "DEAD",
-  Encountered = "ENCOUNTERED",
+  Fainted = "FAINTED",
   InPc = "IN_PC",
   InTeam = "IN_TEAM",
+  Seen = "SEEN",
 }
 
 /** Search query input */
@@ -193,6 +220,24 @@ export type SearchNuzlockesQuery = {
   searchNuzlockes: {
     __typename?: "NuzlockeResponse";
     results: Array<{ __typename?: "Nuzlocke"; id: string; title: string }>;
+  };
+};
+
+export type CreateEncounterMutationVariables = Exact<{
+  input: CreateEncounterInput;
+  nuzlockeId: Scalars["String"];
+}>;
+
+export type CreateEncounterMutation = {
+  __typename?: "Mutation";
+  createEncounter: {
+    __typename?: "Encounter";
+    id: string;
+    location: string;
+    nickname: string;
+    pokemonId: number;
+    status: Status;
+    createdAt: any;
   };
 };
 
@@ -326,6 +371,65 @@ export type SearchNuzlockesLazyQueryHookResult = ReturnType<
 export type SearchNuzlockesQueryResult = Apollo.QueryResult<
   SearchNuzlockesQuery,
   SearchNuzlockesQueryVariables
+>;
+export const CreateEncounterDocument = gql`
+  mutation CreateEncounter(
+    $input: CreateEncounterInput!
+    $nuzlockeId: String!
+  ) {
+    createEncounter(input: $input, nuzlockeId: $nuzlockeId) {
+      id
+      location
+      nickname
+      pokemonId
+      status
+      createdAt
+    }
+  }
+`;
+export type CreateEncounterMutationFn = Apollo.MutationFunction<
+  CreateEncounterMutation,
+  CreateEncounterMutationVariables
+>;
+
+/**
+ * __useCreateEncounterMutation__
+ *
+ * To run a mutation, you first call `useCreateEncounterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEncounterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEncounterMutation, { data, loading, error }] = useCreateEncounterMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      nuzlockeId: // value for 'nuzlockeId'
+ *   },
+ * });
+ */
+export function useCreateEncounterMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateEncounterMutation,
+    CreateEncounterMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateEncounterMutation,
+    CreateEncounterMutationVariables
+  >(CreateEncounterDocument, options);
+}
+export type CreateEncounterMutationHookResult = ReturnType<
+  typeof useCreateEncounterMutation
+>;
+export type CreateEncounterMutationResult =
+  Apollo.MutationResult<CreateEncounterMutation>;
+export type CreateEncounterMutationOptions = Apollo.BaseMutationOptions<
+  CreateEncounterMutation,
+  CreateEncounterMutationVariables
 >;
 export const GetNuzlockeDocument = gql`
   query GetNuzlocke($id: String!) {

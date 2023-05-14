@@ -35,7 +35,7 @@ function Combobox({
   popoverClassName,
   options,
   noOptionsText,
-  placeholder,
+  placeholder = "Select an option",
   label,
   value,
   onChange,
@@ -54,9 +54,8 @@ function Combobox({
             className="flex w-full justify-between"
           >
             {value
-              ? options?.find((option) => option.value.toString() === value)
-                  ?.label
-              : "Select an option"}
+              ? options?.find((option) => option.value === value)?.label
+              : placeholder}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -71,9 +70,8 @@ function Combobox({
               {options?.map((opt) => (
                 <CommandItem
                   key={opt.value}
-                  value={opt?.value.toString()}
-                  onSelect={(currentValue) => {
-                    onChange?.(currentValue === value ? "" : currentValue);
+                  onSelect={() => {
+                    onChange?.(opt.value);
                     setOpen(false);
                   }}
                 >

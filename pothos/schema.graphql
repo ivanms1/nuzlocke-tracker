@@ -1,3 +1,11 @@
+"""Create encounter input"""
+input CreateEncounterInput {
+  location: String!
+  nickname: String!
+  pokemonId: Int!
+  status: STATUS!
+}
+
 """Create nuzlocke input"""
 input CreateNuzlockeInput {
   description: String
@@ -14,12 +22,11 @@ scalar Date
 type Encounter {
   createdAt: Date!
   id: ID!
-  locationId: Int!
+  location: String!
   nickname: String!
   nuzlocke: Nuzlocke!
   pokemonId: Int!
   status: STATUS!
-  types: [Int!]!
   updatedAt: Date!
 }
 
@@ -29,12 +36,21 @@ The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](
 scalar JSON
 
 type Mutation {
+  """Create a encounter"""
+  createEncounter(input: CreateEncounterInput!, nuzlockeId: String!): Encounter!
+
   """Create a nuzlocke"""
   createNuzlocke(input: CreateNuzlockeInput!): Nuzlocke!
+
+  """Delete encounter"""
+  deleteEncounter(id: String!): Encounter!
 
   """Delete nuzlockes"""
   deleteNuzlockes(ids: [String!]!): [String!]!
   signUp(avatar: String!, email: String!, username: String!): User!
+
+  """Update encounter"""
+  updateEncounter(id: String!, input: CreateEncounterInput!): Encounter!
 
   """Update nuzlocke"""
   updateNuzlocke(id: String!, input: CreateNuzlockeInput!): Nuzlocke!
@@ -83,7 +99,7 @@ type Query {
 
 """Pokemon status"""
 enum STATUS {
-  DEAD
+  FAINTED
   IN_PC
   IN_TEAM
   SEEN

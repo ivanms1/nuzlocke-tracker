@@ -67,14 +67,14 @@ enum NuzlockeType {
 }
 
 model Nuzlocke {
-  id          String            @id @default(cuid())
+  id          String       @id @default(cuid())
   type        NuzlockeType
   gameId      Int
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
   title       String
   description String?
-  user        User              @relation(fields: [userId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
   userId      String
   pokemons    Encounter[]
 }
@@ -83,7 +83,7 @@ enum STATUS {
   SEEN
   IN_TEAM
   IN_PC
-  DEAD
+  FAINTED
 }
 
 model Encounter {
@@ -92,11 +92,10 @@ model Encounter {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   pokemonId  Int
-  types      Int[]
   status     STATUS
   nuzlocke   Nuzlocke @relation(fields: [nuzlockeId], references: [id])
   nuzlockeId String
-  locationId Int
+  location   String
 
   @@unique([nuzlockeId])
 }

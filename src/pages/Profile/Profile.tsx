@@ -13,7 +13,9 @@ function Profile({}: ProfileProps) {
     <div>
       <Typography variant="h1">Profile</Typography>
       {data?.searchNuzlockes?.results?.map((nuzlocke) => (
-        <p key={nuzlocke.id}> {nuzlocke.title}</p>
+        <Link href={`/nuzlocke/${nuzlocke.id}`} key={nuzlocke.id}>
+          {nuzlocke.title}
+        </Link>
       ))}
       <Link href="/create-nuzlocke" className={buttonVariants()}>
         Create Nuzlocke
