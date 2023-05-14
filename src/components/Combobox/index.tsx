@@ -16,17 +16,17 @@ import Label from "../Label";
 
 import { cn } from "@/utils/cn";
 
-interface ComboboxProps {
+export interface ComboboxProps {
   inputClassname?: string;
   popoverClassName?: string;
   noOptionsText?: string;
   placeholder?: string;
-  value?: string;
-  onChange?: (value: string) => void;
+  value?: string | number;
+  onChange?: (value: string | number) => void;
   label?: string;
   options?: {
-    label: string;
-    value: string;
+    label: string | number;
+    value: string | number;
   }[];
 }
 
@@ -54,13 +54,14 @@ function Combobox({
             className="flex w-full justify-between"
           >
             {value
-              ? options?.find((option) => option.value === value)?.label
+              ? options?.find((option) => option.value.toString() === value)
+                  ?.label
               : "Select an option"}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className={popoverClassName} align="start">
-          <Command>
+          <Command value={value?.toString()}>
             <CommandInput
               placeholder={placeholder}
               className={inputClassname}
@@ -70,6 +71,7 @@ function Combobox({
               {options?.map((opt) => (
                 <CommandItem
                   key={opt.value}
+                  value={opt?.value.toString()}
                   onSelect={(currentValue) => {
                     onChange?.(currentValue === value ? "" : currentValue);
                     setOpen(false);

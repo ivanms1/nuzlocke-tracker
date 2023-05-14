@@ -5,7 +5,7 @@ interface LayoutProps {
 }
 
 function Layout({ children }: LayoutProps) {
-  return <div className="px-60 py-28">{children}</div>;
+  return <div className="h-screen px-60 py-28">{children}</div>;
 }
 
 export default Layout;

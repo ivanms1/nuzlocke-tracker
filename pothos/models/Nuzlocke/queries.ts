@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 import builder from "pothos/builder";
 import db from "pothos/db";
 
-export const NuzlockeType = builder.enumType("Role", {
+export const NuzlockeType = builder.enumType("NuzlockeType", {
   values: ["NORMAL", "CAGELOCKE", "SOUL_LINK", "CUSTOM"] as const,
   description: "Nuzlocke type",
 });

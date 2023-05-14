@@ -1,0 +1,9 @@
+query GetNuzlocke($id: String!) {
+  getNuzlocke(id: $id) {
+    id
+    title
+    type
+    description
+    createdAt
+  }
+}

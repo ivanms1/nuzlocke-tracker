@@ -6,6 +6,7 @@ import Label from "../Label";
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  state?: "valid" | "invalid";
   helperText?: string;
 }
 

@@ -1,177 +1,110 @@
 import React from "react";
+import { z } from "zod";
 
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Typography from "@/components/Typography";
-import Combobox from "@/components/Combobox";
+import Image from "next/image";
 
-interface CreateNuzlockeProps {}
+import FormSelect from "@/components/Select/FormSelect";
+import FormCombobox from "@/components/Combobox/FormCombobox";
 
-function CreateNuzlocke({}: CreateNuzlockeProps) {
-  const [game, setGame] = React.useState("");
+import { NuzlockeType, useCreateNuzlockeMutation } from "generated";
+
+import { GAME_TYPES, POKEMON_GAMES } from "src/const";
+
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+
+const nuzlockeSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  game: z.number(),
+  type: z.nativeEnum(NuzlockeType),
+});
+
+type Nuzlocke = z.infer<typeof nuzlockeSchema>;
+
+function CreateNuzlocke() {
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<Nuzlocke>();
+
+  const router = useRouter();
+
+  const [createNuzlocke] = useCreateNuzlockeMutation();
+
+  const onSubmit = async (data: Nuzlocke) => {
+    try {
+      const res = await createNuzlocke({
+        variables: {
+          input: {
+            title: data.title,
+            description: data.description,
+            gameId: +data.game,
+            type: data.type,
+          },
+        },
+      });
+      router.push(`/nuzlocke/${res.data?.createNuzlocke?.id}`);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-10">
-      <Typography variant="h1" className="align">
-        Create Nuzlocke
-      </Typography>
-      <form className="flex w-96 flex-col gap-4">
-        <Input label="Title" />
-        <Input label="Description" />
-        <Combobox
-          value={game}
-          onChange={(value) => setGame(value)}
-          label="Game"
-          options={POKEMON_GAMES}
-        />
-        <Button size="lg" className="mt-8 w-fit self-end px-10" type="submit">
-          Create
-        </Button>
-      </form>
+    <div className="flex h-full ">
+      <div className="flex h-full w-1/2 flex-col justify-center gap-10">
+        <Typography variant="h1" className="align">
+          Create Nuzlocke
+        </Typography>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex w-96 flex-col gap-4"
+        >
+          <Input
+            label="Title"
+            {...register("title")}
+            helperText={errors?.title?.message}
+            state={errors?.title ? "invalid" : undefined}
+          />
+          <Input
+            label="Description"
+            {...register("description")}
+            helperText={errors?.description?.message}
+            state={errors?.description ? "invalid" : undefined}
+          />
+          <FormSelect
+            name="type"
+            label="Type"
+            control={control}
+            options={GAME_TYPES}
+            state={errors?.type ? "invalid" : undefined}
+          />
+          <FormCombobox
+            name="game"
+            control={control}
+            popoverClassName="w-96"
+            label="Game"
+            options={POKEMON_GAMES}
+          />
+          <Button size="lg" className="mt-8 w-fit self-end px-10" type="submit">
+            Create
+          </Button>
+        </form>
+      </div>
+      <Image
+        alt="Pokemon"
+        className="absolute right-0 top-0 h-screen w-1/2 object-center"
+        height={800}
+        width={500}
+        src="/assets/images/create-bg.jpeg"
+      />
     </div>
   );
 }
 
 export default CreateNuzlocke;
-
-const POKEMON_GAMES = [
-  {
-    label: "Red",
-    value: "red",
-  },
-  {
-    label: "Blue",
-    value: "blue",
-  },
-  {
-    label: "Yellow",
-    value: "yellow",
-  },
-  {
-    label: "Gold",
-    value: "gold",
-  },
-  {
-    label: "Silver",
-    value: "silver",
-  },
-  {
-    label: "Crystal",
-    value: "crystal",
-  },
-  {
-    label: "Ruby",
-    value: "ruby",
-  },
-  {
-    label: "Sapphire",
-    value: "sapphire",
-  },
-  {
-    label: "Emerald",
-    value: "emerald",
-  },
-  {
-    label: "FireRed",
-    value: "firered",
-  },
-  {
-    label: "LeafGreen",
-    value: "leafgreen",
-  },
-  {
-    label: "Diamond",
-    value: "diamond",
-  },
-  {
-    label: "Pearl",
-    value: "pearl",
-  },
-  {
-    label: "Platinum",
-    value: "platinum",
-  },
-  {
-    label: "HeartGold",
-    value: "heartgold",
-  },
-  {
-    label: "SoulSilver",
-    value: "soulsilver",
-  },
-  {
-    label: "Black",
-    value: "black",
-  },
-  {
-    label: "White",
-    value: "white",
-  },
-  {
-    label: "Black 2",
-    value: "black2",
-  },
-  {
-    label: "White 2",
-    value: "white2",
-  },
-  {
-    label: "X",
-    value: "x",
-  },
-  {
-    label: "Y",
-    value: "y",
-  },
-  {
-    label: "Omega Ruby",
-    value: "omegaruby",
-  },
-  {
-    label: "Alpha Sapphire",
-    value: "alphasapphire",
-  },
-  {
-    label: "Sun",
-    value: "sun",
-  },
-  {
-    label: "Moon",
-    value: "moon",
-  },
-  {
-    label: "Ultra Sun",
-    value: "ultrasun",
-  },
-  {
-    label: "Ultra Moon",
-    value: "ultramoon",
-  },
-  {
-    label: "Let's Go Pikachu",
-    value: "letsgopikachu",
-  },
-  {
-    label: "Let's Go Eevee",
-    value: "letsgoeevee",
-  },
-  {
-    label: "Sword",
-    value: "sword",
-  },
-  {
-    label: "Shield",
-    value: "shield",
-  },
-  {
-    label: "Brilliant Diamond",
-    value: "brilliantdiamond",
-  },
-  {
-    label: "Shining Pearl",
-    value: "shiningpearl",
-  },
-  {
-    label: "Legends: Arceus",
-    value: "legendsarceus",
-  },
-];

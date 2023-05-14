@@ -22,15 +22,26 @@ builder.mutationType({
       type: "Nuzlocke",
       description: "Create a nuzlocke",
       args: {
-        userId: t.arg.string({ required: true }),
         input: t.arg({ type: CreateNuzlockeInput, required: true }),
       },
-      resolve: async (query, _, args) => {
+      resolve: async (query, _, args, ctx) => {
+        if (!ctx?.userId) {
+          throw new Error("You must be logged in to create a nuzlocke");
+        }
+
+        const user = await db.user.findUnique({
+          where: { id: ctx.userId },
+        });
+
+        if (!user) {
+          throw new Error("User not found");
+        }
+
         const nuzlocke = await db.nuzlocke.create({
           ...query,
           data: {
             ...args.input,
-            userId: args.userId,
+            userId: ctx.userId,
           },
         });
 

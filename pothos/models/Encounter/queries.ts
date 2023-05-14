@@ -2,12 +2,12 @@ import builder from "pothos/builder";
 import db from "pothos/db";
 
 export const STATUS = builder.enumType("STATUS", {
-  values: ["ENCOUNTERED", "IN_TEAM", "IN_PC", "DEAD"] as const,
+  values: ["SEEN", "IN_TEAM", "IN_PC", "DEAD"] as const,
   description: "Pokemon status",
 });
 
-builder.prismaObject("NuzlockePokemon", {
-  name: "NuzlockePokemon",
+builder.prismaObject("Encounter", {
+  name: "Encounter",
   fields: (t) => ({
     id: t.exposeID("id"),
     nickname: t.exposeString("nickname"),
@@ -23,13 +23,13 @@ builder.prismaObject("NuzlockePokemon", {
 
 builder.queryFields((t) => ({
   getNuzlockePokemon: t.prismaField({
-    type: "NuzlockePokemon",
-    description: "Get a nuzlocke pokemon by id",
+    type: "Encounter",
+    description: "Get encounter by id",
     args: {
       id: t.arg.string({ required: true }),
     },
     resolve: async (query, _, args) => {
-      const nuzlockePokemon = await db.nuzlockePokemon.findUnique({
+      const nuzlockePokemon = await db.encounter.findUnique({
         ...query,
         where: { id: args?.id },
       });
@@ -42,13 +42,13 @@ builder.queryFields((t) => ({
     },
   }),
   getNuzlockePokemons: t.prismaField({
-    type: ["NuzlockePokemon"],
-    description: "Get a list of pokemons from a nuzlocke",
+    type: ["Encounter"],
+    description: "Get a list of encounters from a nuzlocke",
     args: {
       nuzlockeId: t.arg.string({ required: true }),
     },
     resolve: async (query, _, args) => {
-      const nuzlockePokemons = await db.nuzlockePokemon.findMany({
+      const nuzlockePokemons = await db.encounter.findMany({
         ...query,
         where: { nuzlockeId: args?.nuzlockeId },
       });

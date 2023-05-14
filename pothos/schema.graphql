@@ -3,13 +3,25 @@ input CreateNuzlockeInput {
   description: String
   gameId: Int!
   title: String!
-  type: Role!
+  type: NuzlockeType!
 }
 
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
 scalar Date
+
+type Encounter {
+  createdAt: Date!
+  id: ID!
+  locationId: Int!
+  nickname: String!
+  nuzlocke: Nuzlocke!
+  pokemonId: Int!
+  status: STATUS!
+  types: [Int!]!
+  updatedAt: Date!
+}
 
 """
 The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
@@ -18,7 +30,7 @@ scalar JSON
 
 type Mutation {
   """Create a nuzlocke"""
-  createNuzlocke(input: CreateNuzlockeInput!, userId: String!): Nuzlocke!
+  createNuzlocke(input: CreateNuzlockeInput!): Nuzlocke!
 
   """Delete nuzlockes"""
   deleteNuzlockes(ids: [String!]!): [String!]!
@@ -32,23 +44,11 @@ type Nuzlocke {
   createdAt: Date!
   description: String
   id: ID!
-  pokemons: [NuzlockePokemon!]!
+  pokemons: [Encounter!]!
   title: String!
-  type: Role!
+  type: NuzlockeType!
   updatedAt: Date!
   user: User!
-}
-
-type NuzlockePokemon {
-  createdAt: Date!
-  id: ID!
-  locationId: Int!
-  nickname: String!
-  nuzlocke: Nuzlocke!
-  pokemonId: Int!
-  status: STATUS!
-  types: [Int!]!
-  updatedAt: Date!
 }
 
 """Paginated list of articles"""
@@ -59,34 +59,34 @@ type NuzlockeResponse {
   totalCount: Int
 }
 
-type Query {
-  getNuzlocke(id: String!): Nuzlocke!
-
-  """Get a nuzlocke pokemon by id"""
-  getNuzlockePokemon(id: String!): NuzlockePokemon!
-
-  """Get a list of pokemons from a nuzlocke"""
-  getNuzlockePokemons(nuzlockeId: String!): [NuzlockePokemon!]!
-  getUser(userId: String!): User!
-
-  """Search for nuzlockes"""
-  searchNuzlockes(input: SearchInput): NuzlockeResponse!
-}
-
 """Nuzlocke type"""
-enum Role {
+enum NuzlockeType {
   CAGELOCKE
   CUSTOM
   NORMAL
   SOUL_LINK
 }
 
+type Query {
+  getNuzlocke(id: String!): Nuzlocke!
+
+  """Get encounter by id"""
+  getNuzlockePokemon(id: String!): Encounter!
+
+  """Get a list of encounters from a nuzlocke"""
+  getNuzlockePokemons(nuzlockeId: String!): [Encounter!]!
+  getUser(userId: String!): User!
+
+  """Search for nuzlockes"""
+  searchNuzlockes(input: SearchInput): NuzlockeResponse!
+}
+
 """Pokemon status"""
 enum STATUS {
   DEAD
-  ENCOUNTERED
   IN_PC
   IN_TEAM
+  SEEN
 }
 
 """Search query input"""
