@@ -59,15 +59,15 @@ type Mutation {
 type Nuzlocke {
   createdAt: Date!
   description: String
+  encounters: [Encounter!]!
   id: ID!
-  pokemons: [Encounter!]!
   title: String!
   type: NuzlockeType!
   updatedAt: Date!
   user: User!
 }
 
-"""Paginated list of articles"""
+"""Paginated list of nuzlockes"""
 type NuzlockeResponse {
   nextCursor: String
   prevCursor: String
@@ -86,11 +86,11 @@ enum NuzlockeType {
 type Query {
   getNuzlocke(id: String!): Nuzlocke!
 
+  """Get a list of encounters from a nuzlocke"""
+  getNuzlockeEncounters(nuzlockeId: String!): [Encounter!]!
+
   """Get encounter by id"""
   getNuzlockePokemon(id: String!): Encounter!
-
-  """Get a list of encounters from a nuzlocke"""
-  getNuzlockePokemons(nuzlockeId: String!): [Encounter!]!
   getUser(userId: String!): User!
 
   """Search for nuzlockes"""

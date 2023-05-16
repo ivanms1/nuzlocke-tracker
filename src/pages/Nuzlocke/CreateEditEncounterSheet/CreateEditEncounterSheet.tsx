@@ -5,12 +5,23 @@ import FormSelect from "@/components/Select/FormSelect";
 import Sheet from "@/components/Sheet";
 
 import { Status, useCreateEncounterMutation } from "generated";
+import gql from "graphql-tag";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { POKEMON_OPTIONS } from "src/const/pokemon";
 import { z } from "zod";
+
+const NEW_ENCOUNTER_FRAGMENT = gql`
+  fragment NewEncounter on Encounter {
+    id
+    nickname
+    pokemonId
+    location
+    status
+  }
+`;
 
 const encounterSchema = z.object({
   nickname: z.string(),
@@ -47,6 +58,23 @@ function CreateEditEncounterSheet({
             location: data.location,
             status: data.status,
           },
+        },
+        update(cache, { data }) {
+          cache.modify({
+            id: cache.identify({
+              __typename: "Nuzlocke",
+              id: query.id,
+            }),
+            fields: {
+              encounters(existingEncounters = []) {
+                const newEncounterRef = cache.writeFragment({
+                  data: data?.createEncounter,
+                  fragment: NEW_ENCOUNTER_FRAGMENT,
+                });
+                return [...existingEncounters, newEncounterRef];
+              },
+            },
+          });
         },
       });
       onClose();

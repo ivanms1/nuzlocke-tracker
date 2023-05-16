@@ -35,3 +35,4 @@ yarn-error.log*
 
 # ignore handlebars files
 *.hbs
+/generated/index.tsx

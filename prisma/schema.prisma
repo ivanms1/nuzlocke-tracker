@@ -76,7 +76,7 @@ model Nuzlocke {
   description String?
   user        User         @relation(fields: [userId], references: [id])
   userId      String
-  pokemons    Encounter[]
+  encounters  Encounter[]
 }
 
 enum STATUS {
@@ -96,6 +96,4 @@ model Encounter {
   nuzlocke   Nuzlocke @relation(fields: [nuzlockeId], references: [id])
   nuzlockeId String
   location   String
-
-  @@unique([nuzlockeId])
 }

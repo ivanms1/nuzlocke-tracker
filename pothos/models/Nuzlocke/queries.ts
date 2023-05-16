@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, STATUS } from "@prisma/client";
 
 import builder from "pothos/builder";
 import db from "pothos/db";
@@ -18,12 +18,18 @@ const Nuzlocke = builder.prismaObject("Nuzlocke", {
     createdAt: t.expose("createdAt", { type: "Date" }),
     updatedAt: t.expose("updatedAt", { type: "Date" }),
     user: t.relation("user"),
-    pokemons: t.relation("pokemons"),
+    encounters: t.relation("encounters", {
+      query: () => ({
+        where: {
+          status: STATUS.IN_TEAM,
+        },
+      }),
+    }),
   }),
 });
 
 const NuzlockeResponse = builder.objectType("NuzlockeResponse", {
-  description: "Paginated list of articles",
+  description: "Paginated list of nuzlockes",
   fields: (t) => ({
     nextCursor: t.exposeString("nextCursor", { nullable: true }),
     prevCursor: t.exposeString("prevCursor", { nullable: true }),

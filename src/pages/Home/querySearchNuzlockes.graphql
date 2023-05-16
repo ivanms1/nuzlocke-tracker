@@ -3,6 +3,12 @@ query SearchNuzlockes($input: SearchInput) {
     results {
       id
       title
+      type
+      encounters {
+        id
+        nickname
+        pokemonId
+      }
     }
   }
 }

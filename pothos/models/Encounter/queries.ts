@@ -40,23 +40,23 @@ builder.queryFields((t) => ({
       return nuzlockePokemon;
     },
   }),
-  getNuzlockePokemons: t.prismaField({
+  getNuzlockeEncounters: t.prismaField({
     type: ["Encounter"],
     description: "Get a list of encounters from a nuzlocke",
     args: {
       nuzlockeId: t.arg.string({ required: true }),
     },
     resolve: async (query, _, args) => {
-      const nuzlockePokemons = await db.encounter.findMany({
+      const nuzlockeEncounters = await db.encounter.findMany({
         ...query,
         where: { nuzlockeId: args?.nuzlockeId },
       });
 
-      if (!nuzlockePokemons) {
+      if (!nuzlockeEncounters) {
         throw new Error("NuzlockePokemon not found");
       }
 
-      return nuzlockePokemons;
+      return nuzlockeEncounters;
     },
   }),
 }));
