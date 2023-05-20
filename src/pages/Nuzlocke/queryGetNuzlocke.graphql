@@ -5,10 +5,20 @@ query GetNuzlocke($id: String!) {
     type
     description
     createdAt
+    game {
+      id
+      name
+      regions
+    }
     encounters {
       id
       nickname
-      pokemonId
+      pokemon {
+        id
+        name
+        sprite
+        types
+      }
     }
   }
 }

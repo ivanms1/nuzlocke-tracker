@@ -77,6 +77,7 @@ model Nuzlocke {
   user        User         @relation(fields: [userId], references: [id])
   userId      String
   encounters  Encounter[]
+  game        Game         @relation(fields: [gameId], references: [id])
 }
 
 enum STATUS {
@@ -96,4 +97,31 @@ model Encounter {
   nuzlocke   Nuzlocke @relation(fields: [nuzlockeId], references: [id])
   nuzlockeId String
   location   String
+  pokemon    Pokemon  @relation(fields: [pokemonId], references: [id])
+}
+
+model Pokemon {
+  id            Int         @id
+  name          String
+  types         String[]
+  abilities     String[]
+  sprite        String
+  baseAttack    Int
+  baseDefense   Int
+  baseSpAttack  Int
+  baseSpDefense Int
+  baseSpeed     Int
+  baseHP        Int
+  weight        Float
+  height        Float
+  encounters    Encounter[]
+}
+
+model Game {
+  id         Int      @id
+  name       String
+  generation String
+  versionGroup String
+  regions    String[]
+  Nuzlocke Nuzlocke[]
 }

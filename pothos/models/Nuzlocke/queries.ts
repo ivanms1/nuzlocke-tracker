@@ -18,6 +18,7 @@ const Nuzlocke = builder.prismaObject("Nuzlocke", {
     createdAt: t.expose("createdAt", { type: "Date" }),
     updatedAt: t.expose("updatedAt", { type: "Date" }),
     user: t.relation("user"),
+    game: t.relation("game"),
     encounters: t.relation("encounters", {
       query: () => ({
         where: {

@@ -3,7 +3,12 @@ mutation CreateEncounter($input: CreateEncounterInput!, $nuzlockeId: String!) {
     id
     location
     nickname
-    pokemonId
+    pokemon {
+      id
+      name
+      sprite
+      types
+    }
     status
     createdAt
   }

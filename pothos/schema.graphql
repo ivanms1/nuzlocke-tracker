@@ -25,9 +25,17 @@ type Encounter {
   location: String!
   nickname: String!
   nuzlocke: Nuzlocke!
-  pokemonId: Int!
+  pokemon: Pokemon!
   status: STATUS!
   updatedAt: Date!
+}
+
+type Game {
+  generation: String!
+  id: ID!
+  name: String!
+  regions: [String!]!
+  versionGroup: String!
 }
 
 """
@@ -60,6 +68,7 @@ type Nuzlocke {
   createdAt: Date!
   description: String
   encounters: [Encounter!]!
+  game: Game!
   id: ID!
   title: String!
   type: NuzlockeType!
@@ -81,6 +90,22 @@ enum NuzlockeType {
   CUSTOM
   NORMAL
   SOUL_LINK
+}
+
+type Pokemon {
+  abilities: [String!]!
+  baseAttack: Int!
+  baseDefense: Int!
+  baseHp: Int!
+  baseSpAttack: Int!
+  baseSpDefense: Int!
+  baseSpeed: Int!
+  height: Int!
+  id: ID!
+  name: String!
+  sprite: String!
+  types: [String!]!
+  weight: Int!
 }
 
 type Query {

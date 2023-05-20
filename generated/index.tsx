@@ -42,9 +42,18 @@ export type Encounter = {
   location: Scalars['String'];
   nickname: Scalars['String'];
   nuzlocke: Nuzlocke;
-  pokemonId: Scalars['Int'];
+  pokemon: Pokemon;
   status: Status;
   updatedAt: Scalars['Date'];
+};
+
+export type Game = {
+  __typename?: 'Game';
+  generation: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  regions: Array<Scalars['String']>;
+  versionGroup: Scalars['String'];
 };
 
 export type Mutation = {
@@ -109,6 +118,7 @@ export type Nuzlocke = {
   createdAt: Scalars['Date'];
   description?: Maybe<Scalars['String']>;
   encounters: Array<Encounter>;
+  game: Game;
   id: Scalars['ID'];
   title: Scalars['String'];
   type: NuzlockeType;
@@ -132,6 +142,23 @@ export enum NuzlockeType {
   Normal = 'NORMAL',
   SoulLink = 'SOUL_LINK'
 }
+
+export type Pokemon = {
+  __typename?: 'Pokemon';
+  abilities: Array<Scalars['String']>;
+  baseAttack: Scalars['Int'];
+  baseDefense: Scalars['Int'];
+  baseHp: Scalars['Int'];
+  baseSpAttack: Scalars['Int'];
+  baseSpDefense: Scalars['Int'];
+  baseSpeed: Scalars['Int'];
+  height: Scalars['Int'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  sprite: Scalars['String'];
+  types: Array<Scalars['String']>;
+  weight: Scalars['Int'];
+};
 
 export type Query = {
   __typename?: 'Query';
@@ -213,7 +240,7 @@ export type SearchNuzlockesQueryVariables = Exact<{
 }>;
 
 
-export type SearchNuzlockesQuery = { __typename?: 'Query', searchNuzlockes: { __typename?: 'NuzlockeResponse', results: Array<{ __typename?: 'Nuzlocke', id: string, title: string, type: NuzlockeType, encounters: Array<{ __typename?: 'Encounter', id: string, nickname: string, pokemonId: number }> }> } };
+export type SearchNuzlockesQuery = { __typename?: 'Query', searchNuzlockes: { __typename?: 'NuzlockeResponse', results: Array<{ __typename?: 'Nuzlocke', id: string, title: string, type: NuzlockeType, encounters: Array<{ __typename?: 'Encounter', id: string, nickname: string, pokemon: { __typename?: 'Pokemon', id: string, types: Array<string>, sprite: string } }> }> } };
 
 export type CreateEncounterMutationVariables = Exact<{
   input: CreateEncounterInput;
@@ -221,14 +248,14 @@ export type CreateEncounterMutationVariables = Exact<{
 }>;
 
 
-export type CreateEncounterMutation = { __typename?: 'Mutation', createEncounter: { __typename?: 'Encounter', id: string, location: string, nickname: string, pokemonId: number, status: Status, createdAt: any } };
+export type CreateEncounterMutation = { __typename?: 'Mutation', createEncounter: { __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, createdAt: any, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<string> } } };
 
 export type GetNuzlockeQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type GetNuzlockeQuery = { __typename?: 'Query', getNuzlocke: { __typename?: 'Nuzlocke', id: string, title: string, type: NuzlockeType, description?: string | null, createdAt: any, encounters: Array<{ __typename?: 'Encounter', id: string, nickname: string, pokemonId: number }> } };
+export type GetNuzlockeQuery = { __typename?: 'Query', getNuzlocke: { __typename?: 'Nuzlocke', id: string, title: string, type: NuzlockeType, description?: string | null, createdAt: any, game: { __typename?: 'Game', id: string, name: string, regions: Array<string> }, encounters: Array<{ __typename?: 'Encounter', id: string, nickname: string, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<string> } }> } };
 
 
 export const CreateNuzlockeDocument = gql`
@@ -278,7 +305,11 @@ export const SearchNuzlockesDocument = gql`
       encounters {
         id
         nickname
-        pokemonId
+        pokemon {
+          id
+          types
+          sprite
+        }
       }
     }
   }
@@ -318,7 +349,12 @@ export const CreateEncounterDocument = gql`
     id
     location
     nickname
-    pokemonId
+    pokemon {
+      id
+      name
+      sprite
+      types
+    }
     status
     createdAt
   }
@@ -359,10 +395,20 @@ export const GetNuzlockeDocument = gql`
     type
     description
     createdAt
+    game {
+      id
+      name
+      regions
+    }
     encounters {
       id
       nickname
-      pokemonId
+      pokemon {
+        id
+        name
+        sprite
+        types
+      }
     }
   }
 }

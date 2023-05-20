@@ -13,14 +13,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "plugins": [{ "name": "typescript-plugin-css-modules" }],
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@/components/*": ["src/components/*"],
       "@/pages/*": ["src/pages/*"],
       "@/builder/*": ["pothos/builder/*"],
       "@/hooks/*": ["src/hooks/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/utils/*": ["src/utils/*"],
+      "@/assets/*": ["public/assets/*"]
     },
     "incremental": true
   },

@@ -11,7 +11,7 @@ builder.prismaObject("Encounter", {
   fields: (t) => ({
     id: t.exposeID("id"),
     nickname: t.exposeString("nickname"),
-    pokemonId: t.exposeInt("pokemonId"),
+    pokemon: t.relation("pokemon"),
     nuzlocke: t.relation("nuzlocke"),
     status: t.expose("status", { type: STATUS }),
     createdAt: t.expose("createdAt", { type: "Date" }),

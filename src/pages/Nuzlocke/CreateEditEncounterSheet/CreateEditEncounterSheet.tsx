@@ -3,11 +3,13 @@ import FormCombobox from "@/components/Combobox/FormCombobox";
 import Input from "@/components/Input";
 import FormSelect from "@/components/Select/FormSelect";
 import Sheet from "@/components/Sheet";
+import { getOfficialArtwork } from "@/utils/getOfficialArtwork";
 
 import { Status, useCreateEncounterMutation } from "generated";
 import gql from "graphql-tag";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect, useMemo } from "react";
 
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { POKEMON_OPTIONS } from "src/const/pokemon";
@@ -16,10 +18,16 @@ import { z } from "zod";
 const NEW_ENCOUNTER_FRAGMENT = gql`
   fragment NewEncounter on Encounter {
     id
-    nickname
-    pokemonId
     location
+    nickname
+    pokemon {
+      id
+      name
+      sprite
+      types
+    }
     status
+    createdAt
   }
 `;
 
@@ -35,15 +43,30 @@ type Encounter = z.infer<typeof encounterSchema>;
 interface CreateEditEncounterSheetProps {
   open: boolean;
   onClose: () => void;
+  encounter?: Encounter;
 }
 
 function CreateEditEncounterSheet({
   open,
   onClose,
+  encounter,
 }: CreateEditEncounterSheetProps) {
-  const { register, control, watch, handleSubmit } = useForm<Encounter>();
+  const { register, control, watch, handleSubmit, reset } = useForm<Encounter>({
+    defaultValues: encounter,
+  });
   const [createEncounter] = useCreateEncounterMutation();
   const { query } = useRouter();
+
+  useEffect(() => {
+    if (!open) {
+      reset({
+        nickname: "",
+        pokemonId: 0,
+        location: "",
+        status: Status.Seen,
+      });
+    }
+  }, [open, reset]);
 
   const pokemonId = watch("pokemonId");
 
@@ -82,6 +105,11 @@ function CreateEditEncounterSheet({
       // TOO: handle error
     }
   };
+
+  const artwork = useMemo(() => {
+    return getOfficialArtwork(pokemonId);
+  }, [pokemonId]);
+
   return (
     <Sheet
       open={open}
@@ -115,7 +143,7 @@ function CreateEditEncounterSheet({
         />
         {!!pokemonId && (
           <Image
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png`}
+            src={artwork}
             alt={pokemonId.toString()}
             width={350}
             height={350}

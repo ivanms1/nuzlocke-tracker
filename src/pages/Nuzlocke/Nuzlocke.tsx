@@ -1,10 +1,12 @@
+import React from "react";
+import { useRouter } from "next/router";
+
 import Button from "@/components/Button";
 import Typography from "@/components/Typography";
-import { useGetNuzlockeQuery } from "generated";
-import { useRouter } from "next/router";
-import React from "react";
 import CreateEditEncounterSheet from "./CreateEditEncounterSheet";
-import Image from "next/image";
+import TeamCard from "./TeamCard";
+
+import { useGetNuzlockeQuery } from "generated";
 
 interface NuzlockeProps {}
 
@@ -22,23 +24,24 @@ function Nuzlocke({}: NuzlockeProps) {
 
   return (
     <div className="flex flex-col gap-8">
-      <div>
+      <div className="flex flex-col gap-4">
         <Typography variant="h1">{data?.getNuzlocke?.title}</Typography>
+        <Typography variant="h4">{data?.getNuzlocke?.game?.name}</Typography>
+        <div className="flex gap-2">
+          {data?.getNuzlocke?.game?.regions.map((region) => {
+            return (
+              <Typography key={region} variant="p">
+                {region.toLocaleUpperCase()}
+              </Typography>
+            );
+          })}
+        </div>
+
         <Typography variant="p">{data?.getNuzlocke?.description}</Typography>
       </div>
-      <div className="flex gap-5">
+      <div className="flex flex-wrap gap-5">
         {data?.getNuzlocke?.encounters.map((encounter) => {
-          return (
-            <div key={encounter.id}>
-              <Typography variant="h4">{encounter.nickname}</Typography>
-              <Image
-                alt={encounter.nickname}
-                src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${encounter.pokemonId}.png`}
-                width={100}
-                height={100}
-              />
-            </div>
-          );
+          return <TeamCard key={encounter.id} encounter={encounter} />;
         })}
       </div>
       <Button
