@@ -4,7 +4,6 @@ import { z } from "zod";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Typography from "@/components/Typography";
-import Image from "next/image";
 
 import FormSelect from "@/components/Select/FormSelect";
 import FormCombobox from "@/components/Combobox/FormCombobox";
@@ -96,13 +95,6 @@ function CreateNuzlocke() {
           </Button>
         </form>
       </div>
-      <Image
-        alt="Pokemon"
-        className="absolute right-0 top-0 h-screen w-1/2 object-center"
-        height={800}
-        width={500}
-        src="/assets/images/create-bg.jpeg"
-      />
     </div>
   );
 }

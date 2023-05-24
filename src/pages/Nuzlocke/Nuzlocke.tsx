@@ -7,6 +7,7 @@ import CreateEditEncounterSheet from "./CreateEditEncounterSheet";
 import TeamCard from "./TeamCard";
 
 import { useGetNuzlockeQuery } from "generated";
+import { useSelectedNuzlocke } from "src/state/selectedNuzlocke";
 
 interface NuzlockeProps {}
 
@@ -15,11 +16,21 @@ function Nuzlocke({}: NuzlockeProps) {
     React.useState(false);
 
   const { query } = useRouter();
+
+  const { selectedNuzlocke, setSelectedNuzlocke } = useSelectedNuzlocke();
   const { data } = useGetNuzlockeQuery({
     variables: {
       id: query.id as string,
     },
     skip: !query.id,
+    onCompleted: (data) => {
+      if (data?.getNuzlocke && !selectedNuzlocke) {
+        setSelectedNuzlocke({
+          id: data.getNuzlocke.id,
+          title: data.getNuzlocke.title,
+        });
+      }
+    },
   });
 
   return (

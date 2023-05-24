@@ -21,7 +21,7 @@ function AuthProvider({ children }: AuthProvider) {
     }
 
     if (status === "authenticated" && PUBLIC_ROUTES.includes(router.pathname)) {
-      router.replace("/profile");
+      router.replace("/dashboard");
     }
   }, [status]);
 

@@ -85,6 +85,16 @@ module.exports = {
           to: { height: 0 },
         },
       },
+      backgroundImage: {
+        kanto: "url('/assets/images/kanto-bg.png')",
+        johto: "url('/assets/images/johto-bg.png')",
+        hoenn: "url('/assets/images/hoenn-bg.png')",
+        sinnoh: "url('/assets/images/sinnoh-bg.png')",
+        unova: "url('/assets/images/unova-bg.png')",
+        kalos: "url('/assets/images/kalos-bg.png')",
+        alola: "url('/assets/images/alola-bg.png')",
+        galar: "url('/assets/images/galar-bg.png')",
+      },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",

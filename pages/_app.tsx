@@ -1,6 +1,7 @@
 import { ApolloProvider } from "@apollo/client";
 import { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
+import { Provider as JotaiProvider } from "jotai";
 
 import Layout from "@/components/Layout";
 import AuthProvider from "@/components/AuthProvider";
@@ -16,13 +17,15 @@ function CustomApp({
   const client = useApollo(pageProps);
   return (
     <SessionProvider session={session}>
-      <ApolloProvider client={client}>
-        <AuthProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </AuthProvider>
-      </ApolloProvider>
+      <JotaiProvider>
+        <ApolloProvider client={client}>
+          <AuthProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </AuthProvider>
+        </ApolloProvider>
+      </JotaiProvider>
     </SessionProvider>
   );
 }

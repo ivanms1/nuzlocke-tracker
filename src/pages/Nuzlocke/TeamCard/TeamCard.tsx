@@ -1,5 +1,6 @@
 import Typography from "@/components/Typography";
 import Image from "next/image";
+
 import Pokeball from "@/assets/svg/pokeball.svg";
 
 function convertToThreeDigits(num: number | string) {
@@ -19,10 +20,10 @@ interface TeamCardProps {
 function TeamCard({ encounter }: TeamCardProps) {
   const imageSource = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${encounter.pokemon.id}.png`;
   return (
-    <div
+    <button
       className={`${
         BG_CLASS[encounter.pokemon.types[0]]
-      } relative w-72 rounded-lg px-10 py-6`}
+      } relative w-72 rounded-lg px-10 py-6 transition-all hover:bg-opacity-80`}
     >
       <div className="flex justify-between text-xl text-white">
         <Typography variant="p">{encounter.nickname}</Typography>
@@ -38,7 +39,7 @@ function TeamCard({ encounter }: TeamCardProps) {
         width={200}
         height={200}
       />
-    </div>
+    </button>
   );
 }
 

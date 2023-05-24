@@ -240,7 +240,7 @@ export type SearchNuzlockesQueryVariables = Exact<{
 }>;
 
 
-export type SearchNuzlockesQuery = { __typename?: 'Query', searchNuzlockes: { __typename?: 'NuzlockeResponse', results: Array<{ __typename?: 'Nuzlocke', id: string, title: string, type: NuzlockeType, encounters: Array<{ __typename?: 'Encounter', id: string, nickname: string, pokemon: { __typename?: 'Pokemon', id: string, types: Array<string>, sprite: string } }> }> } };
+export type SearchNuzlockesQuery = { __typename?: 'Query', searchNuzlockes: { __typename?: 'NuzlockeResponse', results: Array<{ __typename?: 'Nuzlocke', id: string, title: string, type: NuzlockeType, game: { __typename?: 'Game', generation: string, id: string, name: string, regions: Array<string>, versionGroup: string }, encounters: Array<{ __typename?: 'Encounter', id: string, nickname: string, pokemon: { __typename?: 'Pokemon', id: string, types: Array<string>, sprite: string } }> }> } };
 
 export type CreateEncounterMutationVariables = Exact<{
   input: CreateEncounterInput;
@@ -302,6 +302,13 @@ export const SearchNuzlockesDocument = gql`
       id
       title
       type
+      game {
+        generation
+        id
+        name
+        regions
+        versionGroup
+      }
       encounters {
         id
         nickname

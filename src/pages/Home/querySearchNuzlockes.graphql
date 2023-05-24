@@ -4,6 +4,13 @@ query SearchNuzlockes($input: SearchInput) {
       id
       title
       type
+      game {
+        generation
+        id
+        name
+        regions
+        versionGroup
+      }
       encounters {
         id
         nickname
