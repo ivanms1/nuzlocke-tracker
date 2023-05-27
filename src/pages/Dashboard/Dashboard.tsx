@@ -3,26 +3,35 @@ import Link from "next/link";
 import Image from "next/image";
 
 import Typography from "@/components/Typography";
+import Button from "@/components/Button/Button";
+import CreateNuzlockeSheet from "./CreateNuzlockeSheet";
 
 import { useSearchNuzlockesQuery } from "generated";
 import { useSelectedNuzlocke } from "src/state/selectedNuzlocke";
 
 import { cn } from "@/utils/cn";
-import { buttonVariants } from "@/components/Button/Button";
 
 function Dashboard() {
+  const [isNewNuzlockeOpen, setIsNewNuzlockeOpen] = React.useState(false);
   const { data } = useSearchNuzlockesQuery();
   const { setSelectedNuzlocke } = useSelectedNuzlocke();
 
   return (
     <div>
-      <Typography variant="h2">Nuzlockes</Typography>
-      <div className="flex gap-3">
+      <div className="flex justify-between">
+        <Typography className="mb-10" variant="h1">
+          Nuzlockes
+        </Typography>
+        <Button size="lg" onClick={() => setIsNewNuzlockeOpen(true)}>
+          Create Nuzlocke
+        </Button>
+      </div>
+      <div className="flex flex-wrap justify-evenly gap-8">
         {data?.searchNuzlockes?.results?.map((nuzlocke) => (
           <Link
             href={`/nuzlocke/${nuzlocke.id}`}
             className={cn(
-              "flex h-24 min-w-[320px] rounded-xl text-white",
+              "flex h-24 w-[320px] rounded-xl text-white",
               REGION_BG[
                 nuzlocke?.game?.regions[nuzlocke?.game?.regions?.length - 1] ??
                   "kanto"
@@ -40,13 +49,13 @@ function Dashboard() {
               <Typography className="text-lg font-semibold" variant="p">
                 {nuzlocke.title}
               </Typography>
-              <div className="flex flex-wrap gap-2">
+              <div className="grid grid-cols-3">
                 {nuzlocke?.encounters?.map((encounter) => (
                   <Image
                     key={encounter.id}
                     alt={encounter.nickname}
-                    width={50}
-                    height={50}
+                    width={45}
+                    height={45}
                     src={encounter.pokemon.sprite}
                   />
                 ))}
@@ -54,10 +63,11 @@ function Dashboard() {
             </div>
           </Link>
         ))}
-        <Link href="/create-nuzlocke" className={buttonVariants()}>
-          Create Nuzlocke
-        </Link>
       </div>
+      <CreateNuzlockeSheet
+        open={isNewNuzlockeOpen}
+        onClose={() => setIsNewNuzlockeOpen(false)}
+      />
     </div>
   );
 }

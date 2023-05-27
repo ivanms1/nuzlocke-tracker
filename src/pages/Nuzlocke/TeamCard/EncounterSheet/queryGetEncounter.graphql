@@ -1,0 +1,25 @@
+query GetEncounter($encounterId: String!) {
+  getEncounter(id: $encounterId) {
+    id
+    location
+    createdAt
+    nickname
+    pokemon {
+      abilities
+      baseAttack
+      baseDefense
+      baseHp
+      baseSpAttack
+      baseSpDefense
+      baseSpeed
+      height
+      id
+      name
+      sprite
+      types
+      weight
+    }
+    status
+    updatedAt
+  }
+}

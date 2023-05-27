@@ -162,14 +162,19 @@ export type Pokemon = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Get encounter by id */
+  getEncounter: Encounter;
   getNuzlocke: Nuzlocke;
   /** Get a list of encounters from a nuzlocke */
   getNuzlockeEncounters: Array<Encounter>;
-  /** Get encounter by id */
-  getNuzlockePokemon: Encounter;
   getUser: User;
   /** Search for nuzlockes */
   searchNuzlockes: NuzlockeResponse;
+};
+
+
+export type QueryGetEncounterArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -180,11 +185,6 @@ export type QueryGetNuzlockeArgs = {
 
 export type QueryGetNuzlockeEncountersArgs = {
   nuzlockeId: Scalars['String'];
-};
-
-
-export type QueryGetNuzlockePokemonArgs = {
-  id: Scalars['String'];
 };
 
 
@@ -249,6 +249,13 @@ export type CreateEncounterMutationVariables = Exact<{
 
 
 export type CreateEncounterMutation = { __typename?: 'Mutation', createEncounter: { __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, createdAt: any, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<string> } } };
+
+export type GetEncounterQueryVariables = Exact<{
+  encounterId: Scalars['String'];
+}>;
+
+
+export type GetEncounterQuery = { __typename?: 'Query', getEncounter: { __typename?: 'Encounter', id: string, location: string, createdAt: any, nickname: string, status: Status, updatedAt: any, pokemon: { __typename?: 'Pokemon', abilities: Array<string>, baseAttack: number, baseDefense: number, baseHp: number, baseSpAttack: number, baseSpDefense: number, baseSpeed: number, height: number, id: string, name: string, sprite: string, types: Array<string>, weight: number } } };
 
 export type GetNuzlockeQueryVariables = Exact<{
   id: Scalars['String'];
@@ -394,6 +401,61 @@ export function useCreateEncounterMutation(baseOptions?: Apollo.MutationHookOpti
 export type CreateEncounterMutationHookResult = ReturnType<typeof useCreateEncounterMutation>;
 export type CreateEncounterMutationResult = Apollo.MutationResult<CreateEncounterMutation>;
 export type CreateEncounterMutationOptions = Apollo.BaseMutationOptions<CreateEncounterMutation, CreateEncounterMutationVariables>;
+export const GetEncounterDocument = gql`
+    query GetEncounter($encounterId: String!) {
+  getEncounter(id: $encounterId) {
+    id
+    location
+    createdAt
+    nickname
+    pokemon {
+      abilities
+      baseAttack
+      baseDefense
+      baseHp
+      baseSpAttack
+      baseSpDefense
+      baseSpeed
+      height
+      id
+      name
+      sprite
+      types
+      weight
+    }
+    status
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetEncounterQuery__
+ *
+ * To run a query within a React component, call `useGetEncounterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEncounterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEncounterQuery({
+ *   variables: {
+ *      encounterId: // value for 'encounterId'
+ *   },
+ * });
+ */
+export function useGetEncounterQuery(baseOptions: Apollo.QueryHookOptions<GetEncounterQuery, GetEncounterQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEncounterQuery, GetEncounterQueryVariables>(GetEncounterDocument, options);
+      }
+export function useGetEncounterLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEncounterQuery, GetEncounterQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEncounterQuery, GetEncounterQueryVariables>(GetEncounterDocument, options);
+        }
+export type GetEncounterQueryHookResult = ReturnType<typeof useGetEncounterQuery>;
+export type GetEncounterLazyQueryHookResult = ReturnType<typeof useGetEncounterLazyQuery>;
+export type GetEncounterQueryResult = Apollo.QueryResult<GetEncounterQuery, GetEncounterQueryVariables>;
 export const GetNuzlockeDocument = gql`
     query GetNuzlocke($id: String!) {
   getNuzlocke(id: $id) {

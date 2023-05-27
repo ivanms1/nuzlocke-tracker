@@ -149,7 +149,9 @@ function CreateEditEncounterSheet({
             height={350}
           />
         )}
-        <Button type="submit">Add Encounter</Button>
+        <Button className="mt-4 self-end" type="submit">
+          Add Encounter
+        </Button>
       </form>
     </Sheet>
   );

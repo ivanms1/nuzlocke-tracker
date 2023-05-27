@@ -9,12 +9,17 @@ import AuthProvider from "@/components/AuthProvider";
 import useApollo from "@/hooks/useApollo";
 
 import "./globals.css";
+import { useEffect } from "react";
 
 function CustomApp({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
   const client = useApollo(pageProps);
+
+  useEffect(() => {
+    document.querySelector("body")?.classList.add("dark");
+  });
   return (
     <SessionProvider session={session}>
       <JotaiProvider>

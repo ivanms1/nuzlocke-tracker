@@ -21,7 +21,7 @@ builder.prismaObject("Encounter", {
 });
 
 builder.queryFields((t) => ({
-  getNuzlockePokemon: t.prismaField({
+  getEncounter: t.prismaField({
     type: "Encounter",
     description: "Get encounter by id",
     args: {

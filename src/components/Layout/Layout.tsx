@@ -9,7 +9,7 @@ function Layout({ children }: LayoutProps) {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <div className="px-4 py-6">{children}</div>
+      <div className="w-full px-4 py-6">{children}</div>
     </div>
   );
 }

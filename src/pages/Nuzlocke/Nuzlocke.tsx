@@ -36,8 +36,18 @@ function Nuzlocke({}: NuzlockeProps) {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-4">
-        <Typography variant="h1">{data?.getNuzlocke?.title}</Typography>
-        <Typography variant="h4">{data?.getNuzlocke?.game?.name}</Typography>
+        <div className="flex justify-between">
+          <div>
+            <Typography variant="h1">{data?.getNuzlocke?.title}</Typography>
+            <Typography variant="h4">
+              {data?.getNuzlocke?.game?.name}
+            </Typography>
+          </div>
+          <Button size="lg" onClick={() => setIsCreateEncounterOpen(true)}>
+            Add Encounter
+          </Button>
+        </div>
+
         <div className="flex gap-2">
           {data?.getNuzlocke?.game?.regions.map((region) => {
             return (
@@ -55,13 +65,7 @@ function Nuzlocke({}: NuzlockeProps) {
           return <TeamCard key={encounter.id} encounter={encounter} />;
         })}
       </div>
-      <Button
-        size="lg"
-        className="self-end"
-        onClick={() => setIsCreateEncounterOpen(true)}
-      >
-        Add Encounter
-      </Button>
+
       <CreateEditEncounterSheet
         open={isCreateEncounterOpen}
         onClose={() => setIsCreateEncounterOpen(false)}

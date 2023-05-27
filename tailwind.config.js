@@ -33,6 +33,7 @@ module.exports = {
         dragon: "#6F35FC",
         dark: "#705746",
         steel: "#B7B7CE",
+        fairy: "#D685AD",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

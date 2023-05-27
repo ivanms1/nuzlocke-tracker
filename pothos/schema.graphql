@@ -109,13 +109,12 @@ type Pokemon {
 }
 
 type Query {
+  """Get encounter by id"""
+  getEncounter(id: String!): Encounter!
   getNuzlocke(id: String!): Nuzlocke!
 
   """Get a list of encounters from a nuzlocke"""
   getNuzlockeEncounters(nuzlockeId: String!): [Encounter!]!
-
-  """Get encounter by id"""
-  getNuzlockePokemon(id: String!): Encounter!
   getUser(userId: String!): User!
 
   """Search for nuzlockes"""
