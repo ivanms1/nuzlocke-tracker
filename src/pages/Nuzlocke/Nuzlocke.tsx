@@ -6,7 +6,7 @@ import Typography from "@/components/Typography";
 import CreateEditEncounterSheet from "./CreateEditEncounterSheet";
 import TeamCard from "./TeamCard";
 
-import { useGetNuzlockeQuery } from "generated";
+import { Status, useGetNuzlockeQuery } from "generated";
 import { useSelectedNuzlocke } from "src/state/selectedNuzlocke";
 
 interface NuzlockeProps {}
@@ -61,9 +61,11 @@ function Nuzlocke({}: NuzlockeProps) {
         <Typography variant="p">{data?.getNuzlocke?.description}</Typography>
       </div>
       <div className="flex flex-wrap gap-5">
-        {data?.getNuzlocke?.encounters.map((encounter) => {
-          return <TeamCard key={encounter.id} encounter={encounter} />;
-        })}
+        {data?.getNuzlocke?.encounters
+          .filter((e) => e.status === Status.InTeam)
+          .map((encounter) => {
+            return <TeamCard key={encounter.id} encounter={encounter} />;
+          })}
       </div>
 
       <CreateEditEncounterSheet

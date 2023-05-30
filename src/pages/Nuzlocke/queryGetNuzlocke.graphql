@@ -13,6 +13,7 @@ query GetNuzlocke($id: String!) {
     encounters {
       id
       nickname
+      status
       pokemon {
         id
         name

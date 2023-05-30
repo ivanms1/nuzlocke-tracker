@@ -58,7 +58,7 @@ type Mutation {
   signUp(avatar: String!, email: String!, username: String!): User!
 
   """Update encounter"""
-  updateEncounter(id: String!, input: CreateEncounterInput!): Encounter!
+  updateEncounter(id: String!, input: UpdateEncounterInput!): Encounter!
 
   """Update nuzlocke"""
   updateNuzlocke(id: String!, input: CreateNuzlockeInput!): Nuzlocke!
@@ -141,6 +141,14 @@ input SearchInput {
 enum SearchOrder {
   asc
   desc
+}
+
+"""Update encounter input"""
+input UpdateEncounterInput {
+  location: String
+  nickname: String
+  pokemonId: Int
+  status: STATUS
 }
 
 type User {

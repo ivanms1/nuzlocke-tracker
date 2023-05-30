@@ -7,7 +7,7 @@ import { Search } from "lucide-react";
 
 import { cn } from "@/utils/cn";
 
-import { Dialog, DialogContent } from "../Dialog/Dialog";
+import { Dialog, DialogContent } from "../Dialog/Components";
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,

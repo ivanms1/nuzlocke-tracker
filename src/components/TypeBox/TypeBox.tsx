@@ -7,13 +7,13 @@ interface TypeBoxProps {
   multiplier?: "½" | "¼" | "2" | "4" | "0";
 }
 
-function TypeBox({ type, multiplier }: TypeBoxProps) {
+const TypeBox = ({ type, multiplier }: TypeBoxProps) => {
   const TypeIcon = TYPE_ICON[type];
   return (
     <div
       className={cn(
         TYPE_BG_CLASS[type],
-        "flex w-36 items-center justify-center gap-2 rounded-full py-1  capitalize text-black",
+        "flex items-center justify-center gap-2 rounded-full py-1  capitalize text-black",
         {
           "justify-between px-1": !!multiplier,
         }
@@ -30,6 +30,6 @@ function TypeBox({ type, multiplier }: TypeBoxProps) {
       )}
     </div>
   );
-}
+};
 
 export default TypeBox;

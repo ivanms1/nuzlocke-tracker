@@ -1,0 +1,5 @@
+mutation DeleteEncounter($deleteEncounterId: String!) {
+  deleteEncounter(id: $deleteEncounterId) {
+    id
+  }
+}

@@ -104,7 +104,7 @@ export type MutationSignUpArgs = {
 
 export type MutationUpdateEncounterArgs = {
   id: Scalars['String'];
-  input: CreateEncounterInput;
+  input: UpdateEncounterInput;
 };
 
 
@@ -219,6 +219,14 @@ export enum SearchOrder {
   Desc = 'desc'
 }
 
+/** Update encounter input */
+export type UpdateEncounterInput = {
+  location?: InputMaybe<Scalars['String']>;
+  nickname?: InputMaybe<Scalars['String']>;
+  pokemonId?: InputMaybe<Scalars['Int']>;
+  status?: InputMaybe<Status>;
+};
+
 export type User = {
   __typename?: 'User';
   avatar?: Maybe<Scalars['String']>;
@@ -250,6 +258,21 @@ export type CreateEncounterMutationVariables = Exact<{
 
 export type CreateEncounterMutation = { __typename?: 'Mutation', createEncounter: { __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, createdAt: any, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<string> } } };
 
+export type DeleteEncounterMutationVariables = Exact<{
+  deleteEncounterId: Scalars['String'];
+}>;
+
+
+export type DeleteEncounterMutation = { __typename?: 'Mutation', deleteEncounter: { __typename?: 'Encounter', id: string } };
+
+export type UpdateEncounterMutationVariables = Exact<{
+  encounterId: Scalars['String'];
+  input: UpdateEncounterInput;
+}>;
+
+
+export type UpdateEncounterMutation = { __typename?: 'Mutation', updateEncounter: { __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<string> } } };
+
 export type GetEncounterQueryVariables = Exact<{
   encounterId: Scalars['String'];
 }>;
@@ -262,7 +285,7 @@ export type GetNuzlockeQueryVariables = Exact<{
 }>;
 
 
-export type GetNuzlockeQuery = { __typename?: 'Query', getNuzlocke: { __typename?: 'Nuzlocke', id: string, title: string, type: NuzlockeType, description?: string | null, createdAt: any, game: { __typename?: 'Game', id: string, name: string, regions: Array<string> }, encounters: Array<{ __typename?: 'Encounter', id: string, nickname: string, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<string> } }> } };
+export type GetNuzlockeQuery = { __typename?: 'Query', getNuzlocke: { __typename?: 'Nuzlocke', id: string, title: string, type: NuzlockeType, description?: string | null, createdAt: any, game: { __typename?: 'Game', id: string, name: string, regions: Array<string> }, encounters: Array<{ __typename?: 'Encounter', id: string, nickname: string, status: Status, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<string> } }> } };
 
 
 export const CreateNuzlockeDocument = gql`
@@ -401,6 +424,82 @@ export function useCreateEncounterMutation(baseOptions?: Apollo.MutationHookOpti
 export type CreateEncounterMutationHookResult = ReturnType<typeof useCreateEncounterMutation>;
 export type CreateEncounterMutationResult = Apollo.MutationResult<CreateEncounterMutation>;
 export type CreateEncounterMutationOptions = Apollo.BaseMutationOptions<CreateEncounterMutation, CreateEncounterMutationVariables>;
+export const DeleteEncounterDocument = gql`
+    mutation DeleteEncounter($deleteEncounterId: String!) {
+  deleteEncounter(id: $deleteEncounterId) {
+    id
+  }
+}
+    `;
+export type DeleteEncounterMutationFn = Apollo.MutationFunction<DeleteEncounterMutation, DeleteEncounterMutationVariables>;
+
+/**
+ * __useDeleteEncounterMutation__
+ *
+ * To run a mutation, you first call `useDeleteEncounterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEncounterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEncounterMutation, { data, loading, error }] = useDeleteEncounterMutation({
+ *   variables: {
+ *      deleteEncounterId: // value for 'deleteEncounterId'
+ *   },
+ * });
+ */
+export function useDeleteEncounterMutation(baseOptions?: Apollo.MutationHookOptions<DeleteEncounterMutation, DeleteEncounterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteEncounterMutation, DeleteEncounterMutationVariables>(DeleteEncounterDocument, options);
+      }
+export type DeleteEncounterMutationHookResult = ReturnType<typeof useDeleteEncounterMutation>;
+export type DeleteEncounterMutationResult = Apollo.MutationResult<DeleteEncounterMutation>;
+export type DeleteEncounterMutationOptions = Apollo.BaseMutationOptions<DeleteEncounterMutation, DeleteEncounterMutationVariables>;
+export const UpdateEncounterDocument = gql`
+    mutation UpdateEncounter($encounterId: String!, $input: UpdateEncounterInput!) {
+  updateEncounter(id: $encounterId, input: $input) {
+    id
+    location
+    nickname
+    pokemon {
+      id
+      name
+      sprite
+      types
+    }
+    status
+  }
+}
+    `;
+export type UpdateEncounterMutationFn = Apollo.MutationFunction<UpdateEncounterMutation, UpdateEncounterMutationVariables>;
+
+/**
+ * __useUpdateEncounterMutation__
+ *
+ * To run a mutation, you first call `useUpdateEncounterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEncounterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEncounterMutation, { data, loading, error }] = useUpdateEncounterMutation({
+ *   variables: {
+ *      encounterId: // value for 'encounterId'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateEncounterMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEncounterMutation, UpdateEncounterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateEncounterMutation, UpdateEncounterMutationVariables>(UpdateEncounterDocument, options);
+      }
+export type UpdateEncounterMutationHookResult = ReturnType<typeof useUpdateEncounterMutation>;
+export type UpdateEncounterMutationResult = Apollo.MutationResult<UpdateEncounterMutation>;
+export type UpdateEncounterMutationOptions = Apollo.BaseMutationOptions<UpdateEncounterMutation, UpdateEncounterMutationVariables>;
 export const GetEncounterDocument = gql`
     query GetEncounter($encounterId: String!) {
   getEncounter(id: $encounterId) {
@@ -472,6 +571,7 @@ export const GetNuzlockeDocument = gql`
     encounters {
       id
       nickname
+      status
       pokemon {
         id
         name

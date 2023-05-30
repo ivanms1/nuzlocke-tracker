@@ -15,6 +15,18 @@ const CreateEncounterInput = builder.inputType("CreateEncounterInput", {
   }),
 });
 
+const UpdateEncounterInput = builder.inputType("UpdateEncounterInput", {
+  description: "Update encounter input",
+  fields: (t) => ({
+    nickname: t.string(),
+    pokemonId: t.int(),
+    location: t.string(),
+    status: t.field({
+      type: STATUS,
+    }),
+  }),
+});
+
 builder.mutationFields((t) => ({
   createEncounter: t.prismaField({
     type: "Encounter",
@@ -66,7 +78,7 @@ builder.mutationFields((t) => ({
     description: "Update encounter",
     args: {
       id: t.arg.string({ required: true }),
-      input: t.arg({ type: CreateEncounterInput, required: true }),
+      input: t.arg({ type: UpdateEncounterInput, required: true }),
     },
     resolve: async (query, _, args, ctx) => {
       if (!ctx?.userId) {
@@ -96,7 +108,10 @@ builder.mutationFields((t) => ({
         ...query,
         where: { id: args.id },
         data: {
-          ...args.input,
+          location: args.input.location || undefined,
+          nickname: args.input.nickname || undefined,
+          pokemonId: args.input.pokemonId || undefined,
+          status: args.input.status || undefined,
         },
       });
 
