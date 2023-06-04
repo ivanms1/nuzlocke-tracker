@@ -21,25 +21,20 @@ export function getPokemonEffectiveness(types: string[]) {
     }
   );
 
-  // remove from immune the types that are in weak or resistant
-  const newImmune = matchups.immune.filter(
-    (type) =>
-      !matchups.weak.includes(type) && !matchups.resistant.includes(type)
-  );
-
   // remove from weak the types that are in resistant
   const newWeak = matchups.weak.filter(
-    (type) => !matchups.resistant.includes(type)
+    (type) =>
+      !matchups.resistant.includes(type) && !matchups.immune.includes(type)
   );
 
   // remove from resistant the types that are in weak
   const newResistant = (matchups.resistant = matchups.resistant.filter(
-    (type) => !matchups.weak.includes(type)
+    (type) => !matchups.weak.includes(type) && !matchups.immune.includes(type)
   ));
 
   return {
     weak: newWeak,
     resistant: newResistant,
-    immune: newImmune,
+    immune: matchups.immune,
   };
 }

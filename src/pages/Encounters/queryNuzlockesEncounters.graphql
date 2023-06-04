@@ -1,0 +1,22 @@
+query GetNuzlockeEncounters(
+  $nuzlockeId: String!
+  $input: EncounterSearchInput
+) {
+  getNuzlockeEncounters(nuzlockeId: $nuzlockeId, input: $input) {
+    nextCursor
+    prevCursor
+    results {
+      id
+      location
+      nickname
+      pokemon {
+        id
+        name
+        sprite
+      }
+      status
+      createdAt
+    }
+    totalCount
+  }
+}

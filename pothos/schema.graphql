@@ -30,6 +30,28 @@ type Encounter {
   updatedAt: Date!
 }
 
+input EncounterFilter {
+  location: StringFilter
+  nickname: StringFilter
+  pokemon: PokemonFilter
+}
+
+"""Search query input"""
+input EncounterSearchInput {
+  cursor: String
+  filter: EncounterFilter
+  order: SearchOrder
+  orderBy: String
+}
+
+"""Paginated list of Encounters"""
+type EncountersResponse {
+  nextCursor: String
+  prevCursor: String
+  results: [Encounter!]!
+  totalCount: Int
+}
+
 type Game {
   generation: String!
   id: ID!
@@ -108,13 +130,17 @@ type Pokemon {
   weight: Int!
 }
 
+input PokemonFilter {
+  name: StringFilter
+}
+
 type Query {
   """Get encounter by id"""
   getEncounter(id: String!): Encounter!
   getNuzlocke(id: String!): Nuzlocke!
 
   """Get a list of encounters from a nuzlocke"""
-  getNuzlockeEncounters(nuzlockeId: String!): [Encounter!]!
+  getNuzlockeEncounters(input: EncounterSearchInput, nuzlockeId: String!): EncountersResponse!
   getUser(userId: String!): User!
 
   """Search for nuzlockes"""
@@ -141,6 +167,13 @@ input SearchInput {
 enum SearchOrder {
   asc
   desc
+}
+
+input StringFilter {
+  contains: String
+  equals: String
+  not: StringFilter
+  startsWith: String
 }
 
 """Update encounter input"""

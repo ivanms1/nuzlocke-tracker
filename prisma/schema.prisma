@@ -9,6 +9,7 @@ generator client {
 
 generator pothos {
   provider = "prisma-pothos-types"
+  prismaUtils  = true
 }
 
 model Account {

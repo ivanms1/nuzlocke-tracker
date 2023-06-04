@@ -1,4 +1,5 @@
 import PrismaPlugin from "@pothos/plugin-prisma";
+import PrismaUtils from "@pothos/plugin-prisma-utils";
 import SchemaBuilder from "@pothos/core";
 
 import type PrismaTypes from "@pothos/plugin-prisma/generated";
@@ -19,6 +20,12 @@ const builder = new SchemaBuilder<{
       totalCount: number;
       results: PrismaTypes["Nuzlocke"]["Shape"][];
     };
+    EncountersResponse: {
+      nextCursor: string;
+      prevCursor: string;
+      totalCount: number;
+      results: PrismaTypes["Encounter"]["Shape"][];
+    };
   };
   Scalars: {
     Date: {
@@ -31,7 +38,7 @@ const builder = new SchemaBuilder<{
     };
   };
 }>({
-  plugins: [PrismaPlugin],
+  plugins: [PrismaPlugin, PrismaUtils],
   prisma: {
     client: db,
     filterConnectionTotalCount: true,

@@ -92,7 +92,7 @@ function EncounterSheet({ encounterId, open, onClose }: EncounterSheetProps) {
       size="default"
       className="p-0"
     >
-      <ScrollArea className="h-screen">
+      <ScrollArea className="h-screen pb-16">
         <div
           className={cn(
             TYPE_BG_CLASS[data?.getEncounter?.pokemon?.types?.[0]],
@@ -198,40 +198,39 @@ function EncounterSheet({ encounterId, open, onClose }: EncounterSheetProps) {
               </div>
             </div>
           )}
-          <div className="flex justify-end gap-4">
-            <Button variant="secondary" size="sm">
-              Edit
-            </Button>
-            <Dropdown
-              content={
-                <DropdownMenuGroup>
-                  {filteredMoveToOptions.map((option) => (
-                    <DropdownMenuItem
-                      className="cursor-pointer"
-                      key={option.value}
-                      onClick={() => updateEncounterStatus(option.value)}
-                    >
-                      {option.label}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuGroup>
-              }
-            >
-              <Button variant="outline" size="sm">
-                Move
-              </Button>
-            </Dropdown>
-            <Button
-              variant="destructive"
-              onClick={() => setDeleteDialogOpen(true)}
-              size="sm"
-            >
-              Delete
-            </Button>
-          </div>
         </div>
       </ScrollArea>
-
+      <div className="fixed bottom-4 right-6 flex justify-end gap-4">
+        <Button variant="secondary" size="sm">
+          Edit
+        </Button>
+        <Dropdown
+          content={
+            <DropdownMenuGroup>
+              {filteredMoveToOptions.map((option) => (
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  key={option.value}
+                  onClick={() => updateEncounterStatus(option.value)}
+                >
+                  {option.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuGroup>
+          }
+        >
+          <Button variant="outline" size="sm">
+            Move
+          </Button>
+        </Dropdown>
+        <Button
+          variant="destructive"
+          onClick={() => setDeleteDialogOpen(true)}
+          size="sm"
+        >
+          Delete
+        </Button>
+      </div>
       <DeleteEncounterDialog
         encounterId={encounterId}
         open={deleteDialogOpen}

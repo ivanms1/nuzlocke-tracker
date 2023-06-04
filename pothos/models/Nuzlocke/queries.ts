@@ -39,7 +39,7 @@ const NuzlockeResponse = builder.objectType("NuzlockeResponse", {
   }),
 });
 
-const SearchOrder = builder.enumType("SearchOrder", {
+export const SearchOrder = builder.enumType("SearchOrder", {
   values: ["asc", "desc"] as const,
   description: "Search order",
 });
