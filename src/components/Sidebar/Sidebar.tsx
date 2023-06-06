@@ -1,11 +1,13 @@
 import {
   LayoutGrid,
-  Library,
-  ListMusic,
-  Mic2,
-  PlayCircle,
+  Component,
   User,
+  Skull,
+  Monitor,
+  XSquare,
+  Table,
 } from "lucide-react";
+
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -19,16 +21,9 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 const SIDEBAR_ITEMS = [
   {
     title: "Dashboard",
-    icon: PlayCircle,
+    icon: LayoutGrid,
     href: "/dashboard",
     pathname: "/dashboard",
-  },
-
-  {
-    title: "Browse",
-    icon: LayoutGrid,
-    href: "/browse",
-    pathname: "/browse",
   },
   {
     title: "Profile",
@@ -44,22 +39,34 @@ function Sidebar({ className }: SidebarProps) {
 
   const NUZLOCKE_ITEMS = [
     {
-      title: "Overview",
-      icon: Library,
+      title: "Team",
+      icon: Component,
       href: `/nuzlocke/${selectedNuzlocke?.id}`,
       pathname: "/nuzlocke/[id]",
     },
     {
-      title: "Encounters",
-      icon: ListMusic,
-      href: `/nuzlocke/${selectedNuzlocke?.id}/encounters`,
-      pathname: "/nuzlocke/[id]/encounters",
+      title: "PC",
+      icon: Monitor,
+      href: `/nuzlocke/${selectedNuzlocke?.id}/pc`,
+      pathname: "/nuzlocke/[id]/pc",
     },
     {
-      title: "Stats",
-      icon: Mic2,
-      href: `/nuzlocke/${selectedNuzlocke?.id}/stats`,
-      pathname: "/nuzlocke/[id]/stats",
+      title: "Grave",
+      icon: Skull,
+      href: `/nuzlocke/${selectedNuzlocke?.id}/grave`,
+      pathname: "/nuzlocke/[id]/grave",
+    },
+    {
+      title: "Missed",
+      icon: XSquare,
+      href: `/nuzlocke/${selectedNuzlocke?.id}/missed`,
+      pathname: "/nuzlocke/[id]/missed",
+    },
+    {
+      title: "Overview",
+      icon: Table,
+      href: `/nuzlocke/${selectedNuzlocke?.id}/overview`,
+      pathname: "/nuzlocke/[id]/overview",
     },
   ];
 

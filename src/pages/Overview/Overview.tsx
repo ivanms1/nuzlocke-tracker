@@ -40,9 +40,9 @@ const SEARCH_BY_OPTIONS = [
 type Encounter =
   GetNuzlockeEncountersQuery["getNuzlockeEncounters"]["results"][0];
 
-interface EncountersProps {}
+interface OverviewProps {}
 
-function Encounters({}: EncountersProps) {
+function Overview({}: OverviewProps) {
   const [searchBy, setSearchBy] = React.useState(SEARCH_BY_OPTIONS[0].value);
   const [searchValue, setSearchValue] = React.useState("");
   const [selectedEncounter, setSelectedEncounter] =
@@ -129,7 +129,7 @@ function Encounters({}: EncountersProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <Typography variant="h1">Encounters</Typography>
+      <Typography variant="h1">Overview</Typography>
       <form onSubmit={handleSearch} className="flex gap-4">
         <Input
           placeholder="Search..."
@@ -181,4 +181,4 @@ function Encounters({}: EncountersProps) {
   );
 }
 
-export default Encounters;
+export default Overview;
