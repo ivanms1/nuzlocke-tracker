@@ -3,14 +3,13 @@ import React from "react";
 import Button from "@/components/Button";
 import Typography from "@/components/Typography";
 import CreateEditEncounterSheet from "./CreateEditEncounterSheet";
-import TeamCard from "./TeamCard";
+import TeamCard from "@/components/TeamCard";
 
-import { Status } from "generated";
 import useGetCurrentNuzlocke from "@/hooks/useGetCurrentNuzlocke";
 
-interface NuzlockeProps {}
+import { Status } from "generated";
 
-function Nuzlocke({}: NuzlockeProps) {
+function Nuzlocke() {
   const [isCreateEncounterOpen, setIsCreateEncounterOpen] =
     React.useState(false);
 

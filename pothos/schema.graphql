@@ -31,9 +31,11 @@ type Encounter {
 }
 
 input EncounterFilter {
+  OR: [EncounterFilter!]
   location: StringFilter
   nickname: StringFilter
   pokemon: PokemonFilter
+  status: STATUS
 }
 
 """Search query input"""

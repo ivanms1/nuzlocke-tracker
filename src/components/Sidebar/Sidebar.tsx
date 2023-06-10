@@ -71,7 +71,7 @@ function Sidebar({ className }: SidebarProps) {
   ];
 
   return (
-    <div className={cn("hidden pb-12 lg:block", className)}>
+    <div className={cn("hidden pb-12 lg:block lg:w-[320px]", className)}>
       <div className="space-y-4 py-4">
         <div className="px-4 py-2">
           <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">

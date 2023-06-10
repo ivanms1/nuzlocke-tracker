@@ -13,6 +13,7 @@ query GetNuzlockeEncounters(
         id
         name
         sprite
+        types
       }
       status
       createdAt

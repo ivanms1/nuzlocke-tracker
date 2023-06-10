@@ -1,4 +1,5 @@
 import builder from "pothos/builder";
+import { STATUS } from "../Encounter";
 
 export const StringFilter = builder.prismaFilter("String", {
   name: "StringFilter",
@@ -16,5 +17,7 @@ export const EncounterFilter = builder.prismaWhere("Encounter", {
     nickname: StringFilter,
     location: StringFilter,
     pokemon: PokemonFilter,
+    status: STATUS,
+    OR: true,
   }),
 });

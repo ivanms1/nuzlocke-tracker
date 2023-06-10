@@ -8,12 +8,13 @@ export interface InputProps
   label?: string;
   state?: "valid" | "invalid";
   helperText?: string;
+  wrapperClassName?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, helperText, ...props }, ref) => {
+  ({ className, type, label, helperText, wrapperClassName, ...props }, ref) => {
     return (
-      <div className="grid w-full items-center gap-1.5">
+      <div className={cn("grid w-full items-center gap-1.5", wrapperClassName)}>
         {label && <Label>{label}</Label>}
         <input
           type={type}
