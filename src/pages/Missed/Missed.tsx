@@ -67,6 +67,9 @@ function Missed() {
       </Typography>
       <div className="flex flex-wrap gap-4">
         {data?.getNuzlockeEncounters?.results?.map((encounter) => {
+          if (encounter.status !== Status.Seen) {
+            return null;
+          }
           return <TeamCard key={encounter.id} encounter={encounter} small />;
         })}
       </div>

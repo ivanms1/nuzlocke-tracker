@@ -70,6 +70,9 @@ function Pc() {
       </Typography>
       <div className="flex flex-wrap gap-4">
         {data?.getNuzlockeEncounters?.results?.map((encounter) => {
+          if (encounter.status !== Status.InPc) {
+            return null;
+          }
           return <TeamCard key={encounter.id} encounter={encounter} small />;
         })}
       </div>

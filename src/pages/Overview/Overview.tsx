@@ -15,7 +15,7 @@ import Input from "@/components/Input";
 import Select from "@/components/Select";
 import Table from "@/components/Table";
 import Typography from "@/components/Typography";
-import EncounterSheet from "../../components/TeamCard/EncounterSheet";
+import EncounterSheet from "@/components/EncounterSheet";
 
 import {
   GetNuzlockeEncountersQuery,

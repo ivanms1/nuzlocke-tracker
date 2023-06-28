@@ -51,6 +51,8 @@ function Grave() {
       },
     });
   };
+
+  console.log("data", data?.getNuzlockeEncounters?.results);
   return (
     <div className="flex flex-col gap-8">
       <Typography variant="h1">Grave</Typography>
@@ -67,6 +69,9 @@ function Grave() {
       </Typography>
       <div className="flex flex-wrap gap-4">
         {data?.getNuzlockeEncounters?.results?.map((encounter) => {
+          if (encounter.status !== Status.Fainted) {
+            return null;
+          }
           return <TeamCard key={encounter.id} encounter={encounter} small />;
         })}
       </div>

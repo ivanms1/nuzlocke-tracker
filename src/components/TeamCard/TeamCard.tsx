@@ -4,7 +4,7 @@ import Typography from "@/components/Typography";
 import Image from "next/image";
 
 import Pokeball from "@/assets/svg/pokeball.svg";
-import EncounterSheet from "./EncounterSheet";
+import EncounterSheet from "../EncounterSheet";
 
 import { TYPE_BG_CLASS } from "src/const";
 import { cn } from "@/utils/cn";
