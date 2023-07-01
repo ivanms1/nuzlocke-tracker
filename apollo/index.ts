@@ -16,7 +16,7 @@ function createApolloClient() {
     ssrMode: typeof window === "undefined",
     connectToDevTools: true,
     link: createHttpLink({
-      uri: process.env.NEXT_PUBLIC_SERVER_URL,
+      uri: `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/graphql`,
     }),
     cache: new InMemoryCache(),
   });
