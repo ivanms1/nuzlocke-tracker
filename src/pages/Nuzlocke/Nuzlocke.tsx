@@ -1,9 +1,10 @@
-import React from "react";
+import React, { type ReactElement } from "react";
 
 import Button from "@/components/Button";
 import Typography from "@/components/Typography";
 import CreateEditEncounterSheet from "./CreateEditEncounterSheet";
 import TeamCard from "@/components/TeamCard";
+import Layout from "@/components/Layout";
 
 import useGetCurrentNuzlocke from "@/hooks/useGetCurrentNuzlocke";
 
@@ -55,5 +56,9 @@ function Nuzlocke() {
     </div>
   );
 }
+
+Nuzlocke.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export default Nuzlocke;

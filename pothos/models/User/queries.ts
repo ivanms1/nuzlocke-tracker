@@ -9,19 +9,21 @@ builder.prismaObject("User", {
     email: t.exposeString("email", { nullable: true }),
     avatar: t.exposeString("avatar", { nullable: true }),
     nuzlockes: t.relation("nuzlockes"),
+    image: t.exposeString("image", { nullable: true }),
   }),
 });
 
 builder.queryFields((t) => ({
-  getUser: t.prismaField({
+  getCurrentUser: t.prismaField({
     type: "User",
-    args: {
-      userId: t.arg.string({ required: true }),
-    },
-    resolve: async (query, _, args) => {
+    resolve: async (query, _, __, ctx) => {
+      if (!ctx.userId) {
+        throw new Error("User not found");
+      }
+
       const user = await db.user.findUnique({
         ...query,
-        where: { id: args?.userId },
+        where: { id: ctx.userId },
       });
 
       if (!user) {

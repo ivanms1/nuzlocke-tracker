@@ -1,5 +1,8 @@
+import { type ReactElement } from "react";
+
 import Button from "@/components/Button";
 import Input from "@/components/Input";
+import Layout from "@/components/Layout";
 import TeamCard from "@/components/TeamCard";
 import Typography from "@/components/Typography";
 
@@ -79,5 +82,9 @@ function Pc() {
     </div>
   );
 }
+
+Pc.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export default Pc;

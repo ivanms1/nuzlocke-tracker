@@ -1,10 +1,11 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
 import Typography from "@/components/Typography";
 import Button from "@/components/Button/Button";
 import CreateNuzlockeSheet from "./CreateNuzlockeSheet";
+import Layout from "@/components/Layout";
 
 import { useSearchNuzlockesQuery } from "generated";
 import { useSelectedNuzlocke } from "src/state/selectedNuzlocke";
@@ -81,6 +82,10 @@ const REGION_BG: Record<string, string> = {
   kalos: "bg-kalos",
   alola: "bg-alola",
   galar: "bg-galar",
+};
+
+Dashboard.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
 };
 
 export default Dashboard;

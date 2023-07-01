@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type ReactElement } from "react";
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -16,6 +16,7 @@ import Select from "@/components/Select";
 import Table from "@/components/Table";
 import Typography from "@/components/Typography";
 import EncounterSheet from "@/components/EncounterSheet";
+import Layout from "@/components/Layout";
 
 import {
   GetNuzlockeEncountersQuery,
@@ -180,5 +181,9 @@ function Overview({}: OverviewProps) {
     </div>
   );
 }
+
+Overview.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export default Overview;

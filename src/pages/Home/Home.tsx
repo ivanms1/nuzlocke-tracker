@@ -1,11 +1,20 @@
 import { signIn } from "next-auth/react";
 
+import Button from "@/components/Button";
+import Typography from "@/components/Typography";
+
 function Home() {
   return (
-    <div>
-      <h1 className="bg-amber-400 text-2xl">Web</h1>
-
-      <button onClick={() => signIn("discord")}>Login</button>
+    <div className="p-4 lg:p-24">
+      <div className="flex flex-col items-center gap-4">
+        <Typography variant="h1">Nuzlocke Tracker</Typography>
+        <Typography variant="h3">
+          A simple way to track your nuzlocke runs
+        </Typography>
+        <Button size="lg" onClick={() => signIn("discord")}>
+          Get Started
+        </Button>
+      </div>
     </div>
   );
 }

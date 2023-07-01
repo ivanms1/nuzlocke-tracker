@@ -137,13 +137,14 @@ input PokemonFilter {
 }
 
 type Query {
+  getCurrentUser: User!
+
   """Get encounter by id"""
   getEncounter(id: String!): Encounter!
   getNuzlocke(id: String!): Nuzlocke!
 
   """Get a list of encounters from a nuzlocke"""
   getNuzlockeEncounters(input: EncounterSearchInput, nuzlockeId: String!): EncountersResponse!
-  getUser(userId: String!): User!
 
   """Search for nuzlockes"""
   searchNuzlockes(input: SearchInput): NuzlockeResponse!
@@ -190,6 +191,7 @@ type User {
   avatar: String
   email: String
   id: ID!
+  image: String
   name: String
   nuzlockes: [Nuzlocke!]!
 }

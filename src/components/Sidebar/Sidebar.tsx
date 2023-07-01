@@ -7,14 +7,18 @@ import {
   XSquare,
   Table,
 } from "lucide-react";
-
+import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
+
+import Button, { buttonVariants } from "../Button/Button";
+import Typography from "../Typography";
 
 import { useSelectedNuzlocke } from "src/state/selectedNuzlocke";
+import { useGetCurrentUserQuery } from "generated";
 
 import { cn } from "@/utils/cn";
-import { buttonVariants } from "../Button/Button";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -36,6 +40,8 @@ const SIDEBAR_ITEMS = [
 function Sidebar({ className }: SidebarProps) {
   const { selectedNuzlocke } = useSelectedNuzlocke();
   const router = useRouter();
+
+  const { data } = useGetCurrentUserQuery();
 
   const NUZLOCKE_ITEMS = [
     {
@@ -71,9 +77,14 @@ function Sidebar({ className }: SidebarProps) {
   ];
 
   return (
-    <div className={cn("hidden pb-12 lg:block lg:w-[320px]", className)}>
-      <div className="space-y-4 py-4">
-        <div className="px-4 py-2">
+    <div
+      className={cn(
+        "hidden flex-col justify-between bg-slate-900 p-4 lg:flex lg:w-[320px]",
+        className
+      )}
+    >
+      <div>
+        <div className="py-2">
           <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">
             Nuzlockes
           </h2>
@@ -103,7 +114,7 @@ function Sidebar({ className }: SidebarProps) {
           </div>
         </div>
         {selectedNuzlocke && (
-          <div className="px-4 py-2">
+          <div className="py-2">
             <h2 className="mb-2 px-2 text-lg font-semibold tracking-tight">
               {selectedNuzlocke.title}
             </h2>
@@ -131,6 +142,30 @@ function Sidebar({ className }: SidebarProps) {
             </div>
           </div>
         )}
+      </div>
+      <div className="flex items-center gap-2">
+        <Image
+          alt={data?.getCurrentUser?.name ?? ""}
+          src={data?.getCurrentUser?.image ?? ""}
+          width={30}
+          height={30}
+          className="rounded-full"
+        />
+        <div className="flex flex-col">
+          <Typography variant="p" className="text-sm">
+            {data?.getCurrentUser?.name}
+          </Typography>
+          <Button
+            size="sm"
+            className="h-auto p-0 text-xs text-red-400"
+            onClick={() => {
+              signOut();
+            }}
+            variant="ghost"
+          >
+            Logout
+          </Button>
+        </div>
       </div>
     </div>
   );

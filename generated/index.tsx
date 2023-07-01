@@ -191,12 +191,12 @@ export type PokemonFilter = {
 
 export type Query = {
   __typename?: 'Query';
+  getCurrentUser: User;
   /** Get encounter by id */
   getEncounter: Encounter;
   getNuzlocke: Nuzlocke;
   /** Get a list of encounters from a nuzlocke */
   getNuzlockeEncounters: EncountersResponse;
-  getUser: User;
   /** Search for nuzlockes */
   searchNuzlockes: NuzlockeResponse;
 };
@@ -215,11 +215,6 @@ export type QueryGetNuzlockeArgs = {
 export type QueryGetNuzlockeEncountersArgs = {
   input?: InputMaybe<EncounterSearchInput>;
   nuzlockeId: Scalars['String'];
-};
-
-
-export type QueryGetUserArgs = {
-  userId: Scalars['String'];
 };
 
 
@@ -269,6 +264,7 @@ export type User = {
   avatar?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  image?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   nuzlockes: Array<Nuzlocke>;
 };
@@ -331,6 +327,11 @@ export type GetNuzlockeEncountersQueryVariables = Exact<{
 
 
 export type GetNuzlockeEncountersQuery = { __typename?: 'Query', getNuzlockeEncounters: { __typename?: 'EncountersResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount?: number | null, results: Array<{ __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, createdAt: any, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<string> } }> } };
+
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name?: string | null, email?: string | null, image?: string | null } };
 
 
 export const DeleteEncounterDocument = gql`
@@ -706,3 +707,40 @@ export function useGetNuzlockeEncountersLazyQuery(baseOptions?: Apollo.LazyQuery
 export type GetNuzlockeEncountersQueryHookResult = ReturnType<typeof useGetNuzlockeEncountersQuery>;
 export type GetNuzlockeEncountersLazyQueryHookResult = ReturnType<typeof useGetNuzlockeEncountersLazyQuery>;
 export type GetNuzlockeEncountersQueryResult = Apollo.QueryResult<GetNuzlockeEncountersQuery, GetNuzlockeEncountersQueryVariables>;
+export const GetCurrentUserDocument = gql`
+    query GetCurrentUser {
+  getCurrentUser {
+    id
+    name
+    email
+    image
+  }
+}
+    `;
+
+/**
+ * __useGetCurrentUserQuery__
+ *
+ * To run a query within a React component, call `useGetCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCurrentUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
+      }
+export function useGetCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
+        }
+export type GetCurrentUserQueryHookResult = ReturnType<typeof useGetCurrentUserQuery>;
+export type GetCurrentUserLazyQueryHookResult = ReturnType<typeof useGetCurrentUserLazyQuery>;
+export type GetCurrentUserQueryResult = Apollo.QueryResult<GetCurrentUserQuery, GetCurrentUserQueryVariables>;

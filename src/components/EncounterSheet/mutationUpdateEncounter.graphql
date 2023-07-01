@@ -1,0 +1,14 @@
+mutation UpdateEncounter($encounterId: String!, $input: UpdateEncounterInput!) {
+  updateEncounter(id: $encounterId, input: $input) {
+    id
+    location
+    nickname
+    pokemon {
+      id
+      name
+      sprite
+      types
+    }
+    status
+  }
+}

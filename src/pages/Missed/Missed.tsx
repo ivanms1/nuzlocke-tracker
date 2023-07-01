@@ -1,7 +1,10 @@
+import { type ReactElement } from "react";
+
 import TeamCard from "@/components/TeamCard";
 import Typography from "@/components/Typography";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
+import Layout from "@/components/Layout";
 
 import useGetCurrentNuzlocke from "@/hooks/useGetCurrentNuzlocke";
 import { useGetNuzlockeEncountersQuery, Status } from "generated";
@@ -76,5 +79,9 @@ function Missed() {
     </div>
   );
 }
+
+Missed.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export default Missed;
