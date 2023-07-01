@@ -8,9 +8,7 @@ import "./models/index";
 
 export const schema = builder.toSchema();
 
-const schemaAsString = printSchema(lexicographicSortSchema(schema));
-
-writeFileSync(
-  path.join(process.cwd(), "./pothos/schema.graphql"),
-  schemaAsString
-);
+if (process.env.NODE_ENV !== "production") {
+  const schemaAsString = printSchema(lexicographicSortSchema(schema));
+  writeFileSync(path.join(__dirname, "../schema.graphql"), schemaAsString);
+}
