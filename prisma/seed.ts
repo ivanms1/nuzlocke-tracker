@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 
+// @ts-ignore file missing on prod
 import pokemonData from "../pokemon-data.json";
+// @ts-ignore file missing on prod
 import gameData from "../pokemon-games.json";
 
 const prisma = new PrismaClient();
