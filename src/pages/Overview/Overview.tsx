@@ -6,7 +6,6 @@ import {
 } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/router";
 
 import Button from "@/components/Button";
 import Dropdown from "@/components/Dropdown";
@@ -17,6 +16,8 @@ import Table from "@/components/Table";
 import Typography from "@/components/Typography";
 import EncounterSheet from "@/components/EncounterSheet";
 import Layout from "@/components/Layout";
+
+import useGetCurrentNuzlocke from "@/hooks/useGetCurrentNuzlocke";
 
 import {
   GetNuzlockeEncountersQuery,
@@ -49,10 +50,11 @@ function Overview({}: OverviewProps) {
   const [selectedEncounter, setSelectedEncounter] =
     React.useState<Encounter | null>(null);
 
-  const router = useRouter();
+  const { currentNuzlocke } = useGetCurrentNuzlocke();
+
   const { data, refetch } = useGetNuzlockeEncountersQuery({
     variables: {
-      nuzlockeId: router.query.id as string,
+      nuzlockeId: currentNuzlocke?.id || "",
       input: {
         filter: {
           pokemon: {
@@ -121,7 +123,7 @@ function Overview({}: OverviewProps) {
           };
 
     refetch({
-      nuzlockeId: router.query.id as string,
+      nuzlockeId: currentNuzlocke?.id || "",
       input: {
         filter: filter,
       },
