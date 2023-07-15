@@ -1,5 +1,5 @@
 import merge from "deepmerge";
-import isEqual from "lodash/isEqual";
+import isEqual from "lodash-es/isEqual";
 import {
   ApolloClient,
   createHttpLink,
@@ -16,7 +16,7 @@ function createApolloClient() {
     ssrMode: typeof window === "undefined",
     connectToDevTools: true,
     link: createHttpLink({
-      uri: `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/graphql`,
+      uri: process.env.NEXT_PUBLIC_SERVER_URL,
     }),
     cache: new InMemoryCache(),
   });
