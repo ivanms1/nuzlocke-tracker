@@ -2514,12 +2514,12 @@
   dependencies:
     "@prisma/generator-helper" "^4.11.0"
 
-"@pothos/plugin-prisma@^3.50.0":
-  version "3.51.0"
-  resolved "https://registry.yarnpkg.com/@pothos/plugin-prisma/-/plugin-prisma-3.51.0.tgz#8070b8d9bc015b8b681152e332d9d9649701c2de"
-  integrity sha512-CacGlMFuzcOmEEHC6XJJlfjKMZirsk3t5an+mkMfG8QWMLRBYYAe6CcJSDdjtBVgJ0f3t2Fd8WPqWuC0IOgJkQ==
+"@pothos/plugin-prisma@^3.58.0":
+  version "3.58.0"
+  resolved "https://registry.yarnpkg.com/@pothos/plugin-prisma/-/plugin-prisma-3.58.0.tgz#8d4073fbe0eacbb785911c65bed89b91c34fd3a8"
+  integrity sha512-XiXL6V3yzUiI8AGmnADh03NaFuv25nAYU3EC2Nj6SubH6RaaGtMiFKHr1Ze4t1J/PzBaB7MA0bDgMzdGf9oddA==
   dependencies:
-    "@prisma/generator-helper" "^4.11.0"
+    "@prisma/generator-helper" "^5.0.0"
 
 "@prisma/client@^4.13.0":
   version "4.14.0"
@@ -2534,6 +2534,15 @@
   integrity sha512-JrltTewF/paRb5mcM5OvcEi9DtdX0sINOAswruxKQrwOLA7Phqb52OfY38MIzGrsrJ8iUGVqQ5bpYZYpxOGCsQ==
   dependencies:
     "@types/debug" "4.1.7"
+    debug "4.3.4"
+    strip-ansi "6.0.1"
+
+"@prisma/debug@5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@prisma/debug/-/debug-5.2.0.tgz#f41ee6eeab024dc91e31db0d109fad21efff17bd"
+  integrity sha512-dOrNOA8B65l3dCp2r3gn5A5dbMXNbEixO3JAaMWiS2q03qMU3/R9oNv86H2c1i3GSwQglH5gjwpkA9olp/+h1A==
+  dependencies:
+    "@types/debug" "4.1.8"
     debug "4.3.4"
     strip-ansi "6.0.1"
 
@@ -2556,6 +2565,16 @@
     "@types/cross-spawn" "6.0.2"
     chalk "4.1.2"
     cross-spawn "7.0.3"
+
+"@prisma/generator-helper@^5.0.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@prisma/generator-helper/-/generator-helper-5.2.0.tgz#bed2ec27b9c453da542ab69ca6d1c97f0237ff9b"
+  integrity sha512-jju+nGe8IgwDhs412sx6PSk5efkuoBqHOJSqbRBb9Y/fMfeDRGLVdwia8Hj+PKmd/YXrqFgBd4NDeFxeCcVVqw==
+  dependencies:
+    "@prisma/debug" "5.2.0"
+    "@types/cross-spawn" "6.0.2"
+    cross-spawn "7.0.3"
+    kleur "4.1.5"
 
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
@@ -3447,6 +3466,13 @@
   version "4.1.7"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.7.tgz#7cc0ea761509124709b8b2d1090d8f6c17aadb82"
   integrity sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==
+  dependencies:
+    "@types/ms" "*"
+
+"@types/debug@4.1.8":
+  version "4.1.8"
+  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.8.tgz#cef723a5d0a90990313faec2d1e22aee5eecb317"
+  integrity sha512-/vPO1EPOs306Cvhwv7KfVfYvOJqA/S/AXjaHQiJboCZzcNDb+TIJFN9/2C9DZ//ijSKWioNyUxD792QmDJ+HKQ==
   dependencies:
     "@types/ms" "*"
 
@@ -6623,6 +6649,11 @@ kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
+
+kleur@4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.1.5.tgz#95106101795f7050c6c650f350c683febddb1780"
+  integrity sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==
 
 language-subtag-registry@~0.3.2:
   version "0.3.21"
