@@ -1,19 +1,21 @@
+import { z } from "zod";
+import gql from "graphql-tag";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect, useMemo } from "react";
+import { type SubmitHandler, useForm } from "react-hook-form";
+
 import Button from "@/components/Button";
 import FormCombobox from "@/components/Combobox/FormCombobox";
 import Input from "@/components/Input";
 import FormSelect from "@/components/Select/FormSelect";
 import Sheet from "@/components/Sheet";
+
 import { getOfficialArtwork } from "@/utils/getOfficialArtwork";
 
 import { Status, useCreateEncounterMutation } from "generated";
-import gql from "graphql-tag";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { useEffect, useMemo } from "react";
 
-import { type SubmitHandler, useForm } from "react-hook-form";
 import { POKEMON_OPTIONS } from "src/const/pokemon";
-import { z } from "zod";
 
 const NEW_ENCOUNTER_FRAGMENT = gql`
   fragment NewEncounter on Encounter {
@@ -141,13 +143,16 @@ function CreateEditEncounterSheet({
           options={POKEMON_OPTIONS}
           placeholder="Select a pokemon"
         />
-        {!!pokemonId && (
+        {!!pokemonId && artwork ? (
           <Image
             src={artwork}
+            className="self-center"
             alt={pokemonId.toString()}
             width={350}
             height={350}
           />
+        ) : (
+          <div className="h-[350px] w-[350px]" />
         )}
         <Button className="mt-4 self-end" type="submit">
           Add Encounter
