@@ -55,7 +55,6 @@ function Grave() {
     });
   };
 
-  console.log("data", data?.getNuzlockeEncounters?.results);
   return (
     <div className="flex flex-col gap-8">
       <Typography variant="h1">Grave</Typography>

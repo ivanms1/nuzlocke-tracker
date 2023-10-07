@@ -29,17 +29,20 @@ const Select = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   SelectProps
 >(
-  ({
-    options,
-    placeholder,
-    className,
-    inputClassName,
-    optionClassName,
-    label,
-    ...props
-  }) => {
+  (
+    {
+      options,
+      placeholder,
+      className,
+      inputClassName,
+      optionClassName,
+      label,
+      ...props
+    },
+    ref
+  ) => {
     return (
-      <div className="grid w-full items-center gap-1.5">
+      <div ref={ref} className="grid w-full items-center gap-1.5">
         {label && <Label>{label}</Label>}
         <SelectComponent {...props}>
           <SelectTrigger className={inputClassName}>

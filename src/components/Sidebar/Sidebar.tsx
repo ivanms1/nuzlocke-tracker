@@ -144,13 +144,15 @@ function Sidebar({ className }: SidebarProps) {
         )}
       </div>
       <div className="flex items-center gap-2">
-        <Image
-          alt={data?.getCurrentUser?.name ?? ""}
-          src={data?.getCurrentUser?.image ?? ""}
-          width={30}
-          height={30}
-          className="rounded-full"
-        />
+        {data?.getCurrentUser?.image && (
+          <Image
+            alt={data?.getCurrentUser?.name ?? ""}
+            src={data?.getCurrentUser?.image ?? ""}
+            width={30}
+            height={30}
+            className="rounded-full"
+          />
+        )}
         <div className="flex flex-col">
           <Typography variant="p" className="text-sm">
             {data?.getCurrentUser?.name}
