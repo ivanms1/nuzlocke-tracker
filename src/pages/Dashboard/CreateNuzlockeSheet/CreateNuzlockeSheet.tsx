@@ -69,6 +69,7 @@ function CreateNuzlockeSheet({ open, onClose }: CreateNuzlockeSheetProps) {
       title="Create Nuzlocke"
       description="Create a new Nuzlocke"
       position="right"
+      className="w-full md:w-1/3"
     >
       <form
         onSubmit={handleSubmit(onSubmit)}

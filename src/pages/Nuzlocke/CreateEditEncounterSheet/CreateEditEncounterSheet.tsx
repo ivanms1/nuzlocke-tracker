@@ -123,6 +123,7 @@ function CreateEditEncounterSheet({
       title="Add Encounter"
       description="Add a new encounter to your nuzlocke"
       position="right"
+      className="w-full md:w-1/3"
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -146,13 +147,13 @@ function CreateEditEncounterSheet({
         {!!pokemonId && artwork ? (
           <Image
             src={artwork}
-            className="self-center"
+            className="h-28 w-28 self-center lg:h-[350px] lg:w-[350px]"
             alt={pokemonId.toString()}
             width={350}
             height={350}
           />
         ) : (
-          <div className="h-[350px] w-[350px]" />
+          <div className="h-28 w-28 lg:h-[350px] lg:w-[350px]" />
         )}
         <Button className="mt-4 self-end" type="submit">
           Add Encounter

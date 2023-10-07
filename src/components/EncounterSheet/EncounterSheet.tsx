@@ -90,7 +90,7 @@ function EncounterSheet({ encounterId, open, onClose }: EncounterSheetProps) {
       }}
       position="right"
       size="default"
-      className="p-0"
+      className="w-full p-0 md:w-1/3"
     >
       <ScrollArea className="h-screen pb-16">
         <div
@@ -102,7 +102,7 @@ function EncounterSheet({ encounterId, open, onClose }: EncounterSheetProps) {
           <Image
             src={artwork}
             alt={data?.getEncounter?.pokemon?.id}
-            className="absolute -bottom-[45%]"
+            className="absolute -bottom-[35%] h-60 w-60 lg:-bottom-[45%] lg:h-[300px] lg:w-[300px]"
             width={300}
             height={300}
           />
