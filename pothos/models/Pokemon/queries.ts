@@ -5,8 +5,8 @@ builder.prismaObject("Pokemon", {
   fields: (t) => ({
     id: t.exposeID("id"),
     name: t.exposeString("name"),
-    types: t.exposeStringList("types"),
-    abilities: t.exposeStringList("abilities"),
+    types: t.relation("types"),
+    abilities: t.relation("abilities"),
     height: t.exposeInt("height"),
     weight: t.exposeInt("weight"),
     baseAttack: t.exposeInt("baseAttack"),

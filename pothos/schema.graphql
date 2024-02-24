@@ -58,7 +58,7 @@ type Game {
   generation: String!
   id: ID!
   name: String!
-  regions: [String!]!
+  regions: [Region!]!
   versionGroup: String!
 }
 
@@ -117,7 +117,7 @@ enum NuzlockeType {
 }
 
 type Pokemon {
-  abilities: [String!]!
+  abilities: [PokemonAbility!]!
   baseAttack: Int!
   baseDefense: Int!
   baseHp: Int!
@@ -128,12 +128,24 @@ type Pokemon {
   id: ID!
   name: String!
   sprite: String!
-  types: [String!]!
+  types: [PokemonType!]!
   weight: Int!
+}
+
+type PokemonAbility {
+  desc: String!
+  id: ID!
+  name: String!
 }
 
 input PokemonFilter {
   name: StringFilter
+}
+
+type PokemonType {
+  color: String!
+  id: ID!
+  name: String!
 }
 
 type Query {
@@ -148,6 +160,11 @@ type Query {
 
   """Search for nuzlockes"""
   searchNuzlockes(input: SearchInput): NuzlockeResponse!
+}
+
+type Region {
+  id: ID!
+  name: String!
 }
 
 """Pokemon status"""

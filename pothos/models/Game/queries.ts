@@ -7,6 +7,6 @@ builder.prismaObject("Game", {
     name: t.exposeString("name"),
     generation: t.exposeString("generation"),
     versionGroup: t.exposeString("versionGroup"),
-    regions: t.exposeStringList("regions"),
+    regions: t.relation("regions"),
   }),
 });

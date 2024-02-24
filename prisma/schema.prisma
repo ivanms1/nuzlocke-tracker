@@ -1,15 +1,16 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
 generator pothos {
-  provider = "prisma-pothos-types"
-  prismaUtils  = true
+  provider    = "prisma-pothos-types"
+  prismaUtils = true
 }
 
 model Account {
@@ -29,6 +30,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -37,6 +39,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
@@ -44,7 +48,7 @@ model User {
   createdAt     DateTime   @default(now())
   nuzlockes     Nuzlocke[]
   avatar        String?
-  name          String?
+  name          String?    @db.Text
   email         String?    @unique
   emailVerified DateTime?
   image         String?
@@ -73,12 +77,15 @@ model Nuzlocke {
   gameId      Int
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  title       String
-  description String?
+  title       String       @db.Text
+  description String?      @db.Text
   user        User         @relation(fields: [userId], references: [id])
   userId      String
   encounters  Encounter[]
   game        Game         @relation(fields: [gameId], references: [id])
+
+  @@index([userId])
+  @@index([gameId])
 }
 
 enum STATUS {
@@ -90,22 +97,25 @@ enum STATUS {
 
 model Encounter {
   id         String   @id @default(cuid())
-  nickname   String
+  nickname   String   @db.Text
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   pokemonId  Int
   status     STATUS
   nuzlocke   Nuzlocke @relation(fields: [nuzlockeId], references: [id])
   nuzlockeId String
-  location   String
+  location   String   @db.Text
   pokemon    Pokemon  @relation(fields: [pokemonId], references: [id])
+
+  @@index([nuzlockeId])
+  @@index([pokemonId])
 }
 
 model Pokemon {
-  id            Int         @id
+  id            Int              @id
   name          String
-  types         String[]
-  abilities     String[]
+  types         PokemonType[]
+  abilities     PokemonAbility[]
   sprite        String
   baseAttack    Int
   baseDefense   Int
@@ -119,10 +129,36 @@ model Pokemon {
 }
 
 model Game {
-  id         Int      @id
-  name       String
-  generation String
+  id           Int        @id
+  name         String
+  generation   String
   versionGroup String
-  regions    String[]
-  Nuzlocke Nuzlocke[]
+  regions      Region[]
+  Nuzlocke     Nuzlocke[]
+}
+
+model PokemonType {
+  id       Int       @id
+  name     String
+  color    String
+  Pokemons Pokemon[]
+
+  @@unique([name])
+}
+
+model PokemonAbility {
+  id       Int       @id
+  name     String
+  desc     String    @db.Text
+  Pokemons Pokemon[]
+
+  @@unique([name])
+}
+
+model Region {
+  id    Int    @id
+  name  String
+  Games Game[]
+
+  @@unique([name])
 }

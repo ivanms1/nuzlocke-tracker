@@ -34,8 +34,8 @@ function Dashboard() {
             className={cn(
               "flex h-24 w-[320px] rounded-xl text-white",
               REGION_BG[
-                nuzlocke?.game?.regions[nuzlocke?.game?.regions?.length - 1] ??
-                  "kanto"
+                nuzlocke?.game?.regions[nuzlocke?.game?.regions?.length - 1]
+                  .name ?? "kanto"
               ]
             )}
             onClick={() => {

@@ -32,8 +32,8 @@ function Nuzlocke() {
         <div className="flex gap-2">
           {currentNuzlocke?.game?.regions.map((region) => {
             return (
-              <Typography key={region} variant="p">
-                {region.toLocaleUpperCase()}
+              <Typography key={region.id} variant="p">
+                {region.name.toLocaleUpperCase()}
               </Typography>
             );
           })}

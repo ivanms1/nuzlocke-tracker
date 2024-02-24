@@ -5,8 +5,6 @@ import { Prisma } from "@prisma/client";
 import { SearchOrder } from "../Nuzlocke";
 import { EncounterFilter } from "../Shared";
 
-import { addModeInsensitive } from "pothos/helpers/addModeInsensitive";
-
 export const STATUS = builder.enumType("STATUS", {
   values: ["SEEN", "IN_TEAM", "IN_PC", "FAINTED"] as const,
   description: "Pokemon status",
@@ -91,12 +89,10 @@ builder.queryFields((t) => ({
         throw new Error("Nuzlocke not found");
       }
 
-      const withInsensitive = addModeInsensitive(args?.input?.filter);
-
       let results;
       const filter: Prisma.EncounterWhereInput | undefined = {
         nuzlockeId: args?.nuzlockeId,
-        ...withInsensitive,
+        ...args?.input?.filter,
       };
 
       const totalCount = await db.encounter.count({

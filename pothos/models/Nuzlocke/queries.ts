@@ -90,13 +90,11 @@ builder.queryType({
             {
               title: {
                 contains: args?.input?.search || "",
-                mode: "insensitive",
               },
             },
             {
               description: {
                 contains: args?.input?.search || "",
-                mode: "insensitive",
               },
             },
           ],

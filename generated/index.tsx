@@ -77,7 +77,7 @@ export type Game = {
   generation: Scalars['String'];
   id: Scalars['ID'];
   name: Scalars['String'];
-  regions: Array<Scalars['String']>;
+  regions: Array<Region>;
   versionGroup: Scalars['String'];
 };
 
@@ -170,7 +170,7 @@ export enum NuzlockeType {
 
 export type Pokemon = {
   __typename?: 'Pokemon';
-  abilities: Array<Scalars['String']>;
+  abilities: Array<PokemonAbility>;
   baseAttack: Scalars['Int'];
   baseDefense: Scalars['Int'];
   baseHp: Scalars['Int'];
@@ -181,12 +181,26 @@ export type Pokemon = {
   id: Scalars['ID'];
   name: Scalars['String'];
   sprite: Scalars['String'];
-  types: Array<Scalars['String']>;
+  types: Array<PokemonType>;
   weight: Scalars['Int'];
+};
+
+export type PokemonAbility = {
+  __typename?: 'PokemonAbility';
+  desc: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 export type PokemonFilter = {
   name?: InputMaybe<StringFilter>;
+};
+
+export type PokemonType = {
+  __typename?: 'PokemonType';
+  color: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 export type Query = {
@@ -220,6 +234,12 @@ export type QueryGetNuzlockeEncountersArgs = {
 
 export type QuerySearchNuzlockesArgs = {
   input?: InputMaybe<SearchInput>;
+};
+
+export type Region = {
+  __typename?: 'Region';
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 /** Pokemon status */
@@ -282,14 +302,19 @@ export type UpdateEncounterMutationVariables = Exact<{
 }>;
 
 
-export type UpdateEncounterMutation = { __typename?: 'Mutation', updateEncounter: { __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<string> } } };
+export type UpdateEncounterMutation = { __typename?: 'Mutation', updateEncounter: { __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<{ __typename?: 'PokemonType', id: string, name: string }> } } };
 
 export type GetEncounterQueryVariables = Exact<{
   encounterId: Scalars['String'];
 }>;
 
 
-export type GetEncounterQuery = { __typename?: 'Query', getEncounter: { __typename?: 'Encounter', id: string, location: string, createdAt: any, nickname: string, status: Status, updatedAt: any, pokemon: { __typename?: 'Pokemon', abilities: Array<string>, baseAttack: number, baseDefense: number, baseHp: number, baseSpAttack: number, baseSpDefense: number, baseSpeed: number, height: number, id: string, name: string, sprite: string, types: Array<string>, weight: number } } };
+export type GetEncounterQuery = { __typename?: 'Query', getEncounter: { __typename?: 'Encounter', id: string, location: string, createdAt: any, nickname: string, status: Status, updatedAt: any, pokemon: { __typename?: 'Pokemon', baseAttack: number, baseDefense: number, baseHp: number, baseSpAttack: number, baseSpDefense: number, baseSpeed: number, height: number, id: string, name: string, sprite: string, weight: number, abilities: Array<{ __typename?: 'PokemonAbility', id: string, name: string, desc: string }>, types: Array<{ __typename?: 'PokemonType', id: string, name: string }> } } };
+
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name?: string | null, email?: string | null, image?: string | null } };
 
 export type CreateNuzlockeMutationVariables = Exact<{
   input: CreateNuzlockeInput;
@@ -303,7 +328,7 @@ export type SearchNuzlockesQueryVariables = Exact<{
 }>;
 
 
-export type SearchNuzlockesQuery = { __typename?: 'Query', searchNuzlockes: { __typename?: 'NuzlockeResponse', results: Array<{ __typename?: 'Nuzlocke', id: string, title: string, type: NuzlockeType, game: { __typename?: 'Game', generation: string, id: string, name: string, regions: Array<string>, versionGroup: string }, encounters: Array<{ __typename?: 'Encounter', id: string, nickname: string, pokemon: { __typename?: 'Pokemon', id: string, types: Array<string>, sprite: string } }> }> } };
+export type SearchNuzlockesQuery = { __typename?: 'Query', searchNuzlockes: { __typename?: 'NuzlockeResponse', results: Array<{ __typename?: 'Nuzlocke', id: string, title: string, type: NuzlockeType, game: { __typename?: 'Game', generation: string, id: string, name: string, versionGroup: string, regions: Array<{ __typename?: 'Region', id: string, name: string }> }, encounters: Array<{ __typename?: 'Encounter', id: string, nickname: string, pokemon: { __typename?: 'Pokemon', id: string, sprite: string, types: Array<{ __typename?: 'PokemonType', id: string, name: string }> } }> }> } };
 
 export type CreateEncounterMutationVariables = Exact<{
   input: CreateEncounterInput;
@@ -311,14 +336,14 @@ export type CreateEncounterMutationVariables = Exact<{
 }>;
 
 
-export type CreateEncounterMutation = { __typename?: 'Mutation', createEncounter: { __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, createdAt: any, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<string> } } };
+export type CreateEncounterMutation = { __typename?: 'Mutation', createEncounter: { __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, createdAt: any, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<{ __typename?: 'PokemonType', id: string, name: string }> } } };
 
 export type GetNuzlockeQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type GetNuzlockeQuery = { __typename?: 'Query', getNuzlocke: { __typename?: 'Nuzlocke', id: string, title: string, type: NuzlockeType, description?: string | null, createdAt: any, game: { __typename?: 'Game', id: string, name: string, regions: Array<string> }, encounters: Array<{ __typename?: 'Encounter', id: string, nickname: string, status: Status, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<string> } }> } };
+export type GetNuzlockeQuery = { __typename?: 'Query', getNuzlocke: { __typename?: 'Nuzlocke', id: string, title: string, type: NuzlockeType, description?: string | null, createdAt: any, game: { __typename?: 'Game', id: string, name: string, regions: Array<{ __typename?: 'Region', id: string, name: string }> }, encounters: Array<{ __typename?: 'Encounter', id: string, nickname: string, status: Status, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<{ __typename?: 'PokemonType', id: string, name: string }> } }> } };
 
 export type GetNuzlockeEncountersQueryVariables = Exact<{
   nuzlockeId: Scalars['String'];
@@ -326,12 +351,7 @@ export type GetNuzlockeEncountersQueryVariables = Exact<{
 }>;
 
 
-export type GetNuzlockeEncountersQuery = { __typename?: 'Query', getNuzlockeEncounters: { __typename?: 'EncountersResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount?: number | null, results: Array<{ __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, createdAt: any, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<string> } }> } };
-
-export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: string, name?: string | null, email?: string | null, image?: string | null } };
+export type GetNuzlockeEncountersQuery = { __typename?: 'Query', getNuzlockeEncounters: { __typename?: 'EncountersResponse', nextCursor?: string | null, prevCursor?: string | null, totalCount?: number | null, results: Array<{ __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, createdAt: any, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<{ __typename?: 'PokemonType', id: string, name: string }> } }> } };
 
 
 export const DeleteEncounterDocument = gql`
@@ -377,7 +397,10 @@ export const UpdateEncounterDocument = gql`
       id
       name
       sprite
-      types
+      types {
+        id
+        name
+      }
     }
     status
   }
@@ -418,7 +441,11 @@ export const GetEncounterDocument = gql`
     createdAt
     nickname
     pokemon {
-      abilities
+      abilities {
+        id
+        name
+        desc
+      }
       baseAttack
       baseDefense
       baseHp
@@ -429,7 +456,10 @@ export const GetEncounterDocument = gql`
       id
       name
       sprite
-      types
+      types {
+        id
+        name
+      }
       weight
     }
     status
@@ -465,6 +495,43 @@ export function useGetEncounterLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type GetEncounterQueryHookResult = ReturnType<typeof useGetEncounterQuery>;
 export type GetEncounterLazyQueryHookResult = ReturnType<typeof useGetEncounterLazyQuery>;
 export type GetEncounterQueryResult = Apollo.QueryResult<GetEncounterQuery, GetEncounterQueryVariables>;
+export const GetCurrentUserDocument = gql`
+    query GetCurrentUser {
+  getCurrentUser {
+    id
+    name
+    email
+    image
+  }
+}
+    `;
+
+/**
+ * __useGetCurrentUserQuery__
+ *
+ * To run a query within a React component, call `useGetCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCurrentUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
+      }
+export function useGetCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
+        }
+export type GetCurrentUserQueryHookResult = ReturnType<typeof useGetCurrentUserQuery>;
+export type GetCurrentUserLazyQueryHookResult = ReturnType<typeof useGetCurrentUserLazyQuery>;
+export type GetCurrentUserQueryResult = Apollo.QueryResult<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
 export const CreateNuzlockeDocument = gql`
     mutation CreateNuzlocke($input: CreateNuzlockeInput!) {
   createNuzlocke(input: $input) {
@@ -513,7 +580,10 @@ export const SearchNuzlockesDocument = gql`
         generation
         id
         name
-        regions
+        regions {
+          id
+          name
+        }
         versionGroup
       }
       encounters {
@@ -521,7 +591,10 @@ export const SearchNuzlockesDocument = gql`
         nickname
         pokemon {
           id
-          types
+          types {
+            id
+            name
+          }
           sprite
         }
       }
@@ -567,7 +640,10 @@ export const CreateEncounterDocument = gql`
       id
       name
       sprite
-      types
+      types {
+        id
+        name
+      }
     }
     status
     createdAt
@@ -612,7 +688,10 @@ export const GetNuzlockeDocument = gql`
     game {
       id
       name
-      regions
+      regions {
+        id
+        name
+      }
     }
     encounters {
       id
@@ -622,7 +701,10 @@ export const GetNuzlockeDocument = gql`
         id
         name
         sprite
-        types
+        types {
+          id
+          name
+        }
       }
     }
   }
@@ -669,7 +751,10 @@ export const GetNuzlockeEncountersDocument = gql`
         id
         name
         sprite
-        types
+        types {
+          id
+          name
+        }
       }
       status
       createdAt
@@ -707,40 +792,3 @@ export function useGetNuzlockeEncountersLazyQuery(baseOptions?: Apollo.LazyQuery
 export type GetNuzlockeEncountersQueryHookResult = ReturnType<typeof useGetNuzlockeEncountersQuery>;
 export type GetNuzlockeEncountersLazyQueryHookResult = ReturnType<typeof useGetNuzlockeEncountersLazyQuery>;
 export type GetNuzlockeEncountersQueryResult = Apollo.QueryResult<GetNuzlockeEncountersQuery, GetNuzlockeEncountersQueryVariables>;
-export const GetCurrentUserDocument = gql`
-    query GetCurrentUser {
-  getCurrentUser {
-    id
-    name
-    email
-    image
-  }
-}
-    `;
-
-/**
- * __useGetCurrentUserQuery__
- *
- * To run a query within a React component, call `useGetCurrentUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCurrentUserQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
-      }
-export function useGetCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
-        }
-export type GetCurrentUserQueryHookResult = ReturnType<typeof useGetCurrentUserQuery>;
-export type GetCurrentUserLazyQueryHookResult = ReturnType<typeof useGetCurrentUserLazyQuery>;
-export type GetCurrentUserQueryResult = Apollo.QueryResult<GetCurrentUserQuery, GetCurrentUserQueryVariables>;

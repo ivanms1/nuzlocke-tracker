@@ -67,7 +67,9 @@ function EncounterSheet({ encounterId, open, onClose }: EncounterSheetProps) {
   }, [data?.getEncounter?.pokemon?.id]);
 
   const effectiveness = useMemo(() => {
-    return getPokemonEffectiveness(data?.getEncounter?.pokemon?.types ?? []);
+    return getPokemonEffectiveness(
+      data?.getEncounter?.pokemon?.types.map((t) => t.name.toLowerCase()) ?? []
+    );
   }, [data?.getEncounter?.pokemon?.types]);
 
   const filteredMoveToOptions = useMemo(() => {
@@ -95,7 +97,7 @@ function EncounterSheet({ encounterId, open, onClose }: EncounterSheetProps) {
       <ScrollArea className="h-screen pb-16">
         <div
           className={cn(
-            TYPE_BG_CLASS[data?.getEncounter?.pokemon?.types?.[0]],
+            TYPE_BG_CLASS[data?.getEncounter?.pokemon?.types?.[0].name],
             "relative mb-6 flex h-[200px] flex-col items-center rounded-b-[50%]"
           )}
         >
@@ -124,7 +126,7 @@ function EncounterSheet({ encounterId, open, onClose }: EncounterSheetProps) {
             <Typography variant="h3">Types</Typography>
             <div className="grid grid-cols-2 gap-4">
               {data?.getEncounter?.pokemon?.types?.map((type) => (
-                <TypeBox key={type} type={type} />
+                <TypeBox key={type.id} type={type.name} />
               ))}
             </div>
           </div>

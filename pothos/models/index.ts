@@ -4,3 +4,6 @@ export * from "./Encounter";
 export * from "./Scalars";
 export * from "./Pokemon";
 export * from "./Game";
+export * from "./PokemonAbility";
+export * from "./PokemonType";
+export * from "./Region";

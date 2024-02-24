@@ -7,7 +7,10 @@ mutation UpdateEncounter($encounterId: String!, $input: UpdateEncounterInput!) {
       id
       name
       sprite
-      types
+      types {
+        id
+        name
+      }
     }
     status
   }

@@ -8,7 +8,10 @@ query GetNuzlocke($id: String!) {
     game {
       id
       name
-      regions
+      regions {
+        id
+        name
+      }
     }
     encounters {
       id
@@ -18,7 +21,10 @@ query GetNuzlocke($id: String!) {
         id
         name
         sprite
-        types
+        types {
+          id
+          name
+        }
       }
     }
   }

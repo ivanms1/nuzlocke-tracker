@@ -5,7 +5,11 @@ query GetEncounter($encounterId: String!) {
     createdAt
     nickname
     pokemon {
-      abilities
+      abilities {
+        id
+        name
+        desc
+      }
       baseAttack
       baseDefense
       baseHp
@@ -16,7 +20,10 @@ query GetEncounter($encounterId: String!) {
       id
       name
       sprite
-      types
+      types {
+        id
+        name
+      }
       weight
     }
     status

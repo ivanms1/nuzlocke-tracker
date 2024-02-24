@@ -133,7 +133,7 @@ function Overview({}: OverviewProps) {
   return (
     <div className="flex flex-col gap-4">
       <Typography variant="h1">Overview</Typography>
-      <form onSubmit={handleSearch} className="flex gap-4">
+      <form onSubmit={handleSearch} className="flex flex-wrap gap-4">
         <Input
           placeholder="Search..."
           value={searchValue}
