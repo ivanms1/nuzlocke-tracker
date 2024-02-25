@@ -13,19 +13,5 @@ query GetNuzlocke($id: String!) {
         name
       }
     }
-    encounters {
-      id
-      nickname
-      status
-      pokemon {
-        id
-        name
-        sprite
-        types {
-          id
-          name
-        }
-      }
-    }
   }
 }

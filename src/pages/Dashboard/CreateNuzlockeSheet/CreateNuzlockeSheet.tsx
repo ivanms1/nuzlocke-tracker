@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import Button from "@/components/Button";
 import Input from "@/components/Input";
@@ -15,9 +16,9 @@ import { GAME_TYPES, POKEMON_GAMES } from "src/const";
 import Sheet from "@/components/Sheet";
 
 const nuzlockeSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  game: z.number(),
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+  game: z.number().min(1),
   type: z.nativeEnum(NuzlockeType),
 });
 
@@ -34,11 +35,19 @@ function CreateNuzlockeSheet({ open, onClose }: CreateNuzlockeSheetProps) {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<Nuzlocke>();
+  } = useForm<Nuzlocke>({
+    resolver: zodResolver(nuzlockeSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      game: 1,
+      type: NuzlockeType.Normal,
+    },
+  });
 
   const router = useRouter();
 
-  const [createNuzlocke] = useCreateNuzlockeMutation();
+  const [createNuzlocke, { loading }] = useCreateNuzlockeMutation();
 
   const onSubmit = async (data: Nuzlocke) => {
     try {
@@ -78,14 +87,12 @@ function CreateNuzlockeSheet({ open, onClose }: CreateNuzlockeSheetProps) {
         <Input
           label="Title"
           {...register("title")}
-          helperText={errors?.title?.message}
-          state={errors?.title ? "invalid" : undefined}
+          error={errors?.title?.message}
         />
         <Input
           label="Description"
           {...register("description")}
-          helperText={errors?.description?.message}
-          state={errors?.description ? "invalid" : undefined}
+          error={errors?.description?.message}
         />
         <FormCombobox
           name="game"
@@ -99,10 +106,14 @@ function CreateNuzlockeSheet({ open, onClose }: CreateNuzlockeSheetProps) {
           label="Type"
           control={control}
           options={GAME_TYPES}
-          state={errors?.type ? "invalid" : undefined}
         />
 
-        <Button size="lg" className="mt-8 w-fit self-end px-10" type="submit">
+        <Button
+          size="lg"
+          className="mt-8 w-fit min-w-[140px] self-end px-10"
+          isLoading={loading}
+          type="submit"
+        >
           Create
         </Button>
       </form>

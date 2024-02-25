@@ -26,6 +26,7 @@ type Encounter {
   nickname: String!
   nuzlocke: Nuzlocke!
   pokemon: Pokemon!
+  pokemonId: Int!
   status: STATUS!
   updatedAt: Date!
 }

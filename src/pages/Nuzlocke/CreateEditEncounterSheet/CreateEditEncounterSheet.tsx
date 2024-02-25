@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import Button from "@/components/Button";
 import FormCombobox from "@/components/Combobox/FormCombobox";
@@ -34,9 +35,9 @@ const NEW_ENCOUNTER_FRAGMENT = gql`
 `;
 
 const encounterSchema = z.object({
-  nickname: z.string(),
-  pokemonId: z.number(),
-  location: z.string(),
+  nickname: z.string().min(1, "Nickname is required"),
+  pokemonId: z.number().min(1, "Pokemon is required"),
+  location: z.string().min(1, "Location is required"),
   status: z.nativeEnum(Status),
 });
 
@@ -53,10 +54,18 @@ function CreateEditEncounterSheet({
   onClose,
   encounter,
 }: CreateEditEncounterSheetProps) {
-  const { register, control, watch, handleSubmit, reset } = useForm<Encounter>({
+  const {
+    register,
+    control,
+    watch,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Encounter>({
     defaultValues: encounter,
+    resolver: zodResolver(encounterSchema),
   });
-  const [createEncounter] = useCreateEncounterMutation();
+  const [createEncounter, { loading }] = useCreateEncounterMutation();
   const { query } = useRouter();
 
   useEffect(() => {
@@ -129,8 +138,16 @@ function CreateEditEncounterSheet({
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-3 py-10"
       >
-        <Input label="Nickname" {...register("nickname")} />
-        <Input label="Location" {...register("location")} />
+        <Input
+          label="Nickname"
+          error={errors.nickname?.message}
+          {...register("nickname")}
+        />
+        <Input
+          label="Location"
+          error={errors.location?.message}
+          {...register("location")}
+        />
         <FormSelect
           label="Status"
           name="status"
@@ -143,6 +160,7 @@ function CreateEditEncounterSheet({
           control={control}
           options={POKEMON_OPTIONS}
           placeholder="Select a pokemon"
+          error={errors.pokemonId?.message}
         />
         {!!pokemonId && artwork ? (
           <Image
@@ -155,8 +173,12 @@ function CreateEditEncounterSheet({
         ) : (
           <div className="h-28 w-28 lg:h-[350px] lg:w-[350px]" />
         )}
-        <Button className="mt-4 self-end" type="submit">
-          Add Encounter
+        <Button
+          className="mt-4 min-w-[140px] self-end"
+          type="submit"
+          isLoading={loading}
+        >
+          Add
         </Button>
       </form>
     </Sheet>

@@ -22,7 +22,7 @@ export interface SelectProps extends SelectPrimitive.SelectProps {
   optionClassName?: string;
   inputClassName?: string;
   label?: string;
-  state?: "valid" | "invalid";
+  error?: string;
 }
 
 const Select = React.forwardRef<
@@ -37,12 +37,13 @@ const Select = React.forwardRef<
       inputClassName,
       optionClassName,
       label,
+      error,
       ...props
     },
     ref
   ) => {
     return (
-      <div ref={ref} className="grid w-full items-center gap-1.5">
+      <div ref={ref} className="grid items-center gap-1.5">
         {label && <Label>{label}</Label>}
         <SelectComponent {...props}>
           <SelectTrigger className={inputClassName}>
@@ -62,6 +63,7 @@ const Select = React.forwardRef<
             </SelectGroup>
           </SelectContent>
         </SelectComponent>
+        {error && <p className="text-xs text-red-600">{error}</p>}
       </div>
     );
   }
