@@ -35,6 +35,7 @@ const Encounter = builder.prismaObject("Encounter", {
     createdAt: t.expose("createdAt", { type: "Date" }),
     updatedAt: t.expose("updatedAt", { type: "Date" }),
     location: t.exposeString("location"),
+    pokemonId: t.exposeInt("pokemonId"),
   }),
 });
 

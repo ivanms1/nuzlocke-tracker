@@ -1,4 +1,4 @@
-import React, { type ReactElement } from "react";
+import React, { useMemo, type ReactElement } from "react";
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -39,20 +39,21 @@ const SEARCH_BY_OPTIONS = [
   { value: "status", label: "Status" },
 ];
 
+const DEFAULT_DATA: GetNuzlockeEncountersQuery["getNuzlockeEncounters"]["results"] =
+  [];
+
 type Encounter =
   GetNuzlockeEncountersQuery["getNuzlockeEncounters"]["results"][0];
 
-interface OverviewProps {}
-
-function Overview({}: OverviewProps) {
+function Overview() {
   const [searchBy, setSearchBy] = React.useState(SEARCH_BY_OPTIONS[0].value);
   const [searchValue, setSearchValue] = React.useState("");
   const [selectedEncounter, setSelectedEncounter] =
     React.useState<Encounter | null>(null);
 
-  const { currentNuzlocke } = useGetCurrentNuzlocke();
+  const { currentNuzlocke, loading: nuzlockeLoading } = useGetCurrentNuzlocke();
 
-  const { data, refetch } = useGetNuzlockeEncountersQuery({
+  const { data, loading, refetch } = useGetNuzlockeEncountersQuery({
     variables: {
       nuzlockeId: currentNuzlocke?.id || "",
       input: {
@@ -65,6 +66,8 @@ function Overview({}: OverviewProps) {
         },
       },
     },
+    notifyOnNetworkStatusChange: true,
+    skip: !currentNuzlocke,
   });
 
   const columnHelper = createColumnHelper<Encounter>();
@@ -97,7 +100,7 @@ function Overview({}: OverviewProps) {
   ];
 
   const table = useReactTable({
-    data: data?.getNuzlockeEncounters.results || [],
+    data: data?.getNuzlockeEncounters.results || DEFAULT_DATA,
     columns: columns,
     getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: (row) => {
@@ -130,6 +133,24 @@ function Overview({}: OverviewProps) {
     });
   };
 
+  const dropdownContent = useMemo(() => {
+    return table
+      .getAllColumns()
+      .filter((column) => column.getCanHide())
+      .map((column) => {
+        return (
+          <DropdownMenuCheckboxItem
+            key={column.id}
+            className="capitalize"
+            checked={column.getIsVisible()}
+            onCheckedChange={(value) => column.toggleVisibility(!!value)}
+          >
+            {column.id}
+          </DropdownMenuCheckboxItem>
+        );
+      });
+  }, [table]);
+
   return (
     <div className="flex flex-col gap-4">
       <Typography variant="h1">Overview</Typography>
@@ -138,31 +159,20 @@ function Overview({}: OverviewProps) {
           placeholder="Search..."
           value={searchValue}
           onChange={(event) => setSearchValue(event.target.value)}
-          className="max-w-sm"
+          wrapperClassName="flex-1"
         />
         <Select
           value={searchBy}
           onValueChange={(val) => setSearchBy(val)}
           options={SEARCH_BY_OPTIONS}
         />
-        <Button className="ml-auto">Search</Button>
-        <Dropdown
-          content={table
-            .getAllColumns()
-            .filter((column) => column.getCanHide())
-            .map((column) => {
-              return (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  className="capitalize"
-                  checked={column.getIsVisible()}
-                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                >
-                  {column.id}
-                </DropdownMenuCheckboxItem>
-              );
-            })}
+        <Button
+          className="min-w-[100px]"
+          isLoading={loading || nuzlockeLoading}
         >
+          Search
+        </Button>
+        <Dropdown content={dropdownContent}>
           <Button variant="outline" className="ml-auto">
             Columns
             <ChevronDown className="ml-1 w-4" />

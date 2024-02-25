@@ -5,26 +5,15 @@ query SearchNuzlockes($input: SearchInput) {
       title
       type
       game {
-        generation
         id
-        name
         regions {
           id
           name
         }
-        versionGroup
       }
       encounters {
         id
-        nickname
-        pokemon {
-          id
-          types {
-            id
-            name
-          }
-          sprite
-        }
+        pokemonId
       }
     }
   }

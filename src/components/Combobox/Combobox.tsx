@@ -28,6 +28,7 @@ export interface ComboboxProps {
     label: string | number;
     value: string | number;
   }[];
+  error?: string;
 }
 
 function Combobox({
@@ -38,6 +39,7 @@ function Combobox({
   placeholder = "Select an option",
   label,
   value,
+  error,
   onChange,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
@@ -51,7 +53,9 @@ function Combobox({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="flex w-full justify-between"
+            className={cn("flex w-full justify-between", {
+              "border-red-600": !!error,
+            })}
           >
             {value
               ? options?.find((option) => option.value === value)?.label
@@ -88,6 +92,7 @@ function Combobox({
           </Command>
         </PopoverContent>
       </Popover>
+      {error && <p className="text-xs text-red-600">{error}</p>}
     </div>
   );
 }

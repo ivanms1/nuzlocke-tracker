@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import { useGetNuzlockeQuery } from "generated";
+import { useGetCurrentNuzlockeQuery } from "generated";
 import { useSelectedNuzlocke } from "src/state/selectedNuzlocke";
 
 function useGetCurrentNuzlocke() {
@@ -8,7 +8,7 @@ function useGetCurrentNuzlocke() {
 
   const router = useRouter();
 
-  const { data, loading, error } = useGetNuzlockeQuery({
+  const { data, loading, error } = useGetCurrentNuzlockeQuery({
     variables: {
       id: router?.query?.id as string,
     },

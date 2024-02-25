@@ -11,6 +11,7 @@ import { useSearchNuzlockesQuery } from "generated";
 import { useSelectedNuzlocke } from "src/state/selectedNuzlocke";
 
 import { cn } from "@/utils/cn";
+import { getSprite } from "@/utils/getSprite";
 
 function Dashboard() {
   const [isNewNuzlockeOpen, setIsNewNuzlockeOpen] = React.useState(false);
@@ -54,10 +55,10 @@ function Dashboard() {
                 {nuzlocke?.encounters?.map((encounter) => (
                   <Image
                     key={encounter.id}
-                    alt={encounter.nickname}
+                    alt={encounter.id}
                     width={45}
                     height={45}
-                    src={encounter.pokemon.sprite}
+                    src={getSprite(encounter.pokemonId)}
                   />
                 ))}
               </div>

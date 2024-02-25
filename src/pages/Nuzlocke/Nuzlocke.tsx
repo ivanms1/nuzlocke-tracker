@@ -8,7 +8,11 @@ import Layout from "@/components/Layout";
 
 import useGetCurrentNuzlocke from "@/hooks/useGetCurrentNuzlocke";
 
-import { Status } from "generated";
+import {
+  Status,
+  useGetNuzlockeEncountersQuery,
+  useGetNuzlockeQuery,
+} from "generated";
 
 function Nuzlocke() {
   const [isCreateEncounterOpen, setIsCreateEncounterOpen] =
@@ -16,13 +20,34 @@ function Nuzlocke() {
 
   const { currentNuzlocke } = useGetCurrentNuzlocke();
 
+  const { data: nuzlockeData } = useGetNuzlockeQuery({
+    variables: {
+      id: currentNuzlocke?.id ?? "",
+    },
+    skip: !currentNuzlocke?.id,
+  });
+
+  const { data } = useGetNuzlockeEncountersQuery({
+    variables: {
+      nuzlockeId: currentNuzlocke?.id as string,
+      input: {
+        filter: {
+          status: Status.InTeam,
+        },
+      },
+    },
+    skip: !currentNuzlocke?.id,
+  });
+
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-4">
         <div className="flex justify-between">
           <div>
             <Typography variant="h1">{currentNuzlocke?.title}</Typography>
-            <Typography variant="h4">{currentNuzlocke?.game?.name}</Typography>
+            <Typography variant="h4">
+              {nuzlockeData?.getNuzlocke?.game?.name}
+            </Typography>
           </div>
           <Button size="lg" onClick={() => setIsCreateEncounterOpen(true)}>
             Add Encounter
@@ -30,7 +55,7 @@ function Nuzlocke() {
         </div>
 
         <div className="flex gap-2">
-          {currentNuzlocke?.game?.regions.map((region) => {
+          {nuzlockeData?.getNuzlocke?.game?.regions.map((region) => {
             return (
               <Typography key={region.id} variant="p">
                 {region.name.toLocaleUpperCase()}
@@ -42,7 +67,7 @@ function Nuzlocke() {
         <Typography variant="p">{currentNuzlocke?.description}</Typography>
       </div>
       <div className="flex flex-wrap gap-5">
-        {currentNuzlocke?.encounters
+        {data?.getNuzlockeEncounters.results
           .filter((e) => e.status === Status.InTeam)
           .map((encounter) => {
             return <TeamCard key={encounter.id} encounter={encounter} />;
