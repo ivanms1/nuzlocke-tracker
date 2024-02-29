@@ -27,10 +27,14 @@ const NEW_ENCOUNTER_FRAGMENT = gql`
       id
       name
       sprite
-      types
+      types {
+        id
+        name
+      }
     }
     status
     createdAt
+    updatedAt
   }
 `;
 
@@ -83,7 +87,7 @@ function CreateEditEncounterSheet({
 
   const onSubmit: SubmitHandler<Encounter> = async (data) => {
     try {
-      await createEncounter({
+      createEncounter({
         variables: {
           nuzlockeId: query?.id as string,
           input: {
@@ -95,20 +99,37 @@ function CreateEditEncounterSheet({
         },
         update(cache, { data }) {
           cache.modify({
-            id: cache.identify({
-              __typename: "Nuzlocke",
-              id: query.id,
-            }),
             fields: {
-              encounters(existingEncounters = []) {
+              getNuzlockeEncounters(existingEncounters = { results: [] }) {
                 const newEncounterRef = cache.writeFragment({
                   data: data?.createEncounter,
                   fragment: NEW_ENCOUNTER_FRAGMENT,
                 });
-                return [...existingEncounters, newEncounterRef];
+                return {
+                  ...existingEncounters,
+                  results: [...existingEncounters.results, newEncounterRef],
+                };
               },
             },
           });
+        },
+        optimisticResponse: {
+          createEncounter: {
+            __typename: "Encounter",
+            id: Math.random().toString(),
+            nickname: data.nickname,
+            pokemon: {
+              __typename: "Pokemon",
+              id: data.pokemonId.toString(),
+              name: "",
+              sprite: "",
+              types: [],
+            },
+            location: data.location,
+            status: data.status,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          },
         },
       });
       onClose();

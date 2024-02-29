@@ -1,4 +1,6 @@
 import React from "react";
+import { Loader2 } from "lucide-react";
+
 import {
   AlertDialog as AlertDialogComponent,
   AlertDialogAction,
@@ -11,6 +13,8 @@ import {
 } from "./Components";
 import { buttonVariants } from "../Button/Button";
 
+import { cn } from "@/utils/cn";
+
 interface AlertDialogProps {
   open: boolean;
   title?: string;
@@ -22,6 +26,7 @@ interface AlertDialogProps {
   confirmText?: string;
   cancelText?: string;
   destructive?: boolean;
+  isLoading?: boolean;
 }
 
 function AlertDialog({
@@ -35,7 +40,9 @@ function AlertDialog({
   destructive,
   confirmText = "Confirm",
   cancelText = "Cancel",
+  isLoading,
 }: AlertDialogProps) {
+  console.log("open", open);
   return (
     <AlertDialogComponent
       open={open}
@@ -56,14 +63,23 @@ function AlertDialog({
         )}
         {children}
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onClose}>{cancelText}</AlertDialogCancel>
+          <AlertDialogCancel disabled={isLoading} onClick={onClose}>
+            {cancelText}
+          </AlertDialogCancel>
           <AlertDialogAction
-            className={buttonVariants({
-              variant: destructive ? "destructive" : "default",
-            })}
-            onClick={onConfirm}
+            className={cn(
+              "min-w-[90px]",
+              buttonVariants({
+                variant: destructive ? "destructive" : "default",
+              })
+            )}
+            onClick={isLoading ? undefined : onConfirm}
           >
-            {confirmText}
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              confirmText
+            )}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

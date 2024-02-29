@@ -15,18 +15,20 @@ function DeleteEncounterDialog({
   onClose,
   encounterId,
 }: DeleteEncounterDialogProps) {
-  const [deleteEncounter] = useDeleteEncounterMutation({
+  const [deleteEncounter, { loading }] = useDeleteEncounterMutation({
     variables: {
       deleteEncounterId: encounterId,
-    },
-    update(cache) {
-      cache.evict({ id: `Encounter:${encounterId}` });
     },
   });
 
   const onDelete = async () => {
     try {
-      await deleteEncounter();
+      await deleteEncounter({
+        update(cache) {
+          cache.evict({ id: `Encounter:${encounterId}` });
+        },
+      });
+
       onClose();
     } catch (e) {
       onClose();
@@ -39,6 +41,7 @@ function DeleteEncounterDialog({
       open={open}
       onClose={onClose}
       onConfirm={onDelete}
+      isLoading={loading}
       title="Are you sure you want to delete this encounter?"
     />
   );
