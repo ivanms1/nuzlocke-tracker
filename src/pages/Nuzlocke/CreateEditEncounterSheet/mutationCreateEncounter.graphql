@@ -14,5 +14,6 @@ mutation CreateEncounter($input: CreateEncounterInput!, $nuzlockeId: String!) {
     }
     status
     createdAt
+    updatedAt
   }
 }

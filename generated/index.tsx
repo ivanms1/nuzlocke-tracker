@@ -344,7 +344,7 @@ export type CreateEncounterMutationVariables = Exact<{
 }>;
 
 
-export type CreateEncounterMutation = { __typename?: 'Mutation', createEncounter: { __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, createdAt: any, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<{ __typename?: 'PokemonType', id: string, name: string }> } } };
+export type CreateEncounterMutation = { __typename?: 'Mutation', createEncounter: { __typename?: 'Encounter', id: string, location: string, nickname: string, status: Status, createdAt: any, updatedAt: any, pokemon: { __typename?: 'Pokemon', id: string, name: string, sprite: string, types: Array<{ __typename?: 'PokemonType', id: string, name: string }> } } };
 
 export type GetNuzlockeQueryVariables = Exact<{
   id: Scalars['String'];
@@ -683,6 +683,7 @@ export const CreateEncounterDocument = gql`
     }
     status
     createdAt
+    updatedAt
   }
 }
     `;

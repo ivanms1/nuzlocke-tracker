@@ -33,7 +33,7 @@ function TeamCard({ encounter, small }: TeamCardProps) {
     <>
       <button
         className={cn(
-          TYPE_BG_CLASS[encounter.pokemon.types[0].name],
+          TYPE_BG_CLASS[encounter.pokemon.types?.[0]?.name],
           "relative w-72 rounded-lg px-10 py-6 transition-all hover:bg-opacity-80",
           { "h-36 w-36 px-4 py-0": small }
         )}
